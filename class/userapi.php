@@ -1,6 +1,6 @@
 <?php
 /**
- * @package modules\skeleton
+ * @package modules\webhooks
  * @category Xaraya Web Applications Framework
  * @version 2.4.2
  * @copyright see the html/credits.html file in this release
@@ -10,7 +10,7 @@
  * @author mikespub <mikespub@xaraya.com>
 **/
 
-namespace Xaraya\Modules\Skeleton;
+namespace Xaraya\Modules\Webhooks;
 
 use Xaraya\DataObject\Traits\UserApiInterface;
 use Xaraya\DataObject\Traits\UserApiTrait;
@@ -21,14 +21,14 @@ use sys;
 sys::import('modules.dynamicdata.class.traits.userapi');
 
 /**
- * Class to handle the Skeleton User API (static for now)
+ * Class to handle the Webhooks User API (static for now)
  */
 class UserApi implements UserApiInterface
 {
     use UserApiTrait;
 
-    public static string $moduleName = 'skeleton';
-    protected static int $moduleId = 123456;  // @todo replace with fixed number - see xarversion.php
+    public static string $moduleName = 'webhooks';
+    protected static int $moduleId = 182630;  // @todo replace with fixed number - see xarversion.php
     protected static int $itemtype = 0;
 
 }

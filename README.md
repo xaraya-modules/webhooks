@@ -1,2 +1,2 @@
-# skeleton
-Skeleton for a new Xaraya module
+# webhooks
+Skeleton to and from Xaraya

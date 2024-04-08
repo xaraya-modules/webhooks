@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use Xaraya\Context\Context;
 use Xaraya\Context\SessionContext;
-use Xaraya\Modules\Skeleton\UserApi;
+use Xaraya\Modules\Webhooks\UserApi;
 
 //use Xaraya\Sessions\SessionHandler;
 

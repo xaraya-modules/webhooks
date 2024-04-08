@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use Xaraya\Context\Context;
 use Xaraya\Context\SessionContext;
-use Xaraya\Modules\Skeleton\UserGui;
+use Xaraya\Modules\Webhooks\UserGui;
 
 //use Xaraya\Sessions\SessionHandler;
 
@@ -50,7 +50,7 @@ final class UserGuiTest extends TestCase
 
         $expected = array_merge($args, [
             'context' => $context,
-            'description' => 'Description of Skeleton',
+            'description' => 'Description of Webhooks',
         ]);
         $this->assertEquals($expected, $data);
     }

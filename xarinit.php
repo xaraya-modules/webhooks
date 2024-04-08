@@ -1,16 +1,16 @@
 <?php
 /**
- * Initialise the skeleton module
+ * Initialise the webhooks module
  *
- * @package modules\skeleton
+ * @package modules\webhooks
  * @category Xaraya Web Applications Framework
  * @version 2.4.2
  * @copyright see the html/credits.html file in this release
  * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
- * @link http://xaraya.info/index.php/release/18257.html
+ * @link http://xaraya.info/index.php/release/182630.html
  */
 
-namespace Xaraya\Modules\Skeleton;
+namespace Xaraya\Modules\Webhooks;
 
 use xarMod;
 use xarModVars;
@@ -21,9 +21,9 @@ use xarModVars;
  * @access public
  * @return  boolean true on success or false on failure
  */
-function skeleton_init()
+function webhooks_init()
 {
-    $module = 'skeleton';
+    $module = 'webhooks';
     $objects = [
         // add your DD objects here
     ];
@@ -35,7 +35,7 @@ function skeleton_init()
     xarModVars::set($module, 'hello', 'world');
 
     // Installation complete; check for upgrades
-    return skeleton_upgrade('2.4.1');
+    return webhooks_upgrade('2.4.1');
 }
 
 /**
@@ -44,7 +44,7 @@ function skeleton_init()
  * @access public
  * @return boolean
  */
-function skeleton_activate()
+function webhooks_activate()
 {
     return true;
 }
@@ -55,7 +55,7 @@ function skeleton_activate()
  * @access public
  * @return boolean
  */
-function skeleton_deactivate()
+function webhooks_deactivate()
 {
     return true;
 }
@@ -66,7 +66,7 @@ function skeleton_deactivate()
  * @param string $oldversion
  * @return boolean true on success, false on failure
  */
-function skeleton_upgrade($oldversion)
+function webhooks_upgrade($oldversion)
 {
     // Upgrade dependent on old version number
     switch ($oldversion) {
@@ -85,7 +85,7 @@ function skeleton_upgrade($oldversion)
  *
  * @return boolean
  */
-function skeleton_delete()
+function webhooks_delete()
 {
-    return xarMod::apiFunc('modules', 'admin', 'standarddeinstall', ['module' => 'skeleton']);
+    return xarMod::apiFunc('modules', 'admin', 'standarddeinstall', ['module' => 'webhooks']);
 }

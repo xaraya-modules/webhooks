@@ -1,18 +1,21 @@
 {
-    "name": "xaraya/skeleton",
+    "name": "xaraya/webhooks",
     "type": "xaraya-module",
-    "description": "Skeleton for a new Xaraya module",
-    "homepage": "https://github.com/xaraya-modules/skeleton",
+    "description": "Webhooks to and from Xaraya",
+    "homepage": "https://github.com/xaraya-modules/webhooks",
     "license": "GPL-2.0-or-later",
     "config": {
         "optimize-autoloader": true,
         "sort-packages": true
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "conflict": {
         "xaraya/core": "<2.4.1"
     },
     "autoload": {
         "classmap": ["./"]
+    },
+    "require": {
+        "symfony/webhook": "^6.4 || ^7.0"
     }
 }

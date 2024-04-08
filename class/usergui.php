@@ -1,6 +1,6 @@
 <?php
 /**
- * @package modules\skeleton
+ * @package modules\webhooks
  * @category Xaraya Web Applications Framework
  * @version 2.4.2
  * @copyright see the html/credits.html file in this release
@@ -10,7 +10,7 @@
  * @author mikespub <mikespub@xaraya.com>
  **/
 
-namespace Xaraya\Modules\Skeleton;
+namespace Xaraya\Modules\Webhooks;
 
 use Xaraya\DataObject\Traits\UserGuiInterface;
 use Xaraya\DataObject\Traits\UserGuiTrait;
@@ -21,10 +21,10 @@ use sys;
 
 sys::import('modules.dynamicdata.class.objects.factory');
 sys::import('modules.dynamicdata.class.traits.usergui');
-sys::import('modules.skeleton.class.userapi');
+sys::import('modules.webhooks.class.userapi');
 
 /**
- * Class instance to handle the Skeleton User GUI
+ * Class instance to handle the Webhooks User GUI
  */
 class UserGui implements UserGuiInterface
 {
@@ -37,7 +37,7 @@ class UserGui implements UserGuiInterface
      */
     public function main(array $args = [])
     {
-        $args['description'] ??= 'Description of Skeleton';
+        $args['description'] ??= 'Description of Webhooks';
 
         // Pass along the context for xarTpl::module() if needed
         $args['context'] ??= $this->getContext();

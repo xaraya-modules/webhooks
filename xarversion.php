@@ -1,31 +1,31 @@
 <?php
 /**
- * Skeleton version information
+ * Webhooks version information
  *
- * @package modules\skeleton
+ * @package modules\webhooks
  * @copyright (C) 2024 Mike's Pub
  * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
  * @link https://github.com/xaraya-modules
  * @author mikespub
  */
 $modversion = [];
-$modversion['name']           = 'skeleton';
-$modversion['id']             = '123456';  // @todo replace with fixed number
+$modversion['name']           = 'webhooks';
+$modversion['id']             = '182630';  // @todo replace with fixed number
 $modversion['version']        = '2.4.2';
-$modversion['displayname']    = 'Skeleton';
-$modversion['description']    = 'Skeleton for a new Xaraya module';
+$modversion['displayname']    = 'Webhooks';
+$modversion['description']    = 'Webhooks to and from Xaraya';
 $modversion['credits']        = '';
 $modversion['help']           = '';
 $modversion['changelog']      = '';
 $modversion['license']        = '';
 $modversion['official']       = false;
 $modversion['author']         = 'mikespub';
-$modversion['contact']        = 'https://github.com/xaraya-modules/skeleton';
+$modversion['contact']        = 'https://github.com/xaraya-modules/webhooks';
 $modversion['admin']          = false;
 $modversion['user']           = true;
 $modversion['class']          = 'Complete';
 $modversion['category']       = 'Content';
-$modversion['namespace']      = 'Xaraya\Modules\Skeleton';
+$modversion['namespace']      = 'Xaraya\Modules\Webhooks';
 $modversion['securityschema'] = [];
 $modversion['dependency']     = [];
 $modversion['twigtemplates']  = true;
