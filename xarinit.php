@@ -31,6 +31,9 @@ function webhooks_init()
         return false;
     }
 
+    // Re-use modules ItemCreate event
+    //xarHooks::registerSubject('ItemCreate', 'item', 'webhooks');
+
     // Set up module variables
     xarModVars::set($module, 'hello', 'world');
 

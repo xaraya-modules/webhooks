@@ -14,24 +14,21 @@ namespace Xaraya\Modules\Webhooks;
 
 use Xaraya\DataObject\Traits\UserGuiInterface;
 use Xaraya\DataObject\Traits\UserGuiTrait;
-use BadParameterException;
-use xarSec;
-use xarVar;
 use sys;
 
 sys::import('modules.dynamicdata.class.objects.factory');
 sys::import('modules.dynamicdata.class.traits.usergui');
-sys::import('modules.webhooks.class.userapi');
+sys::import('modules.webhooks.class.adminapi');
 
 /**
  * Class instance to handle the Webhooks User GUI
  */
-class UserGui implements UserGuiInterface
+class AdminGui implements UserGuiInterface
 {
     use UserGuiTrait;
 
     /**
-     * User main GUI function
+     * Admin main GUI function
      * @param array<string, mixed> $args
      * @return array<mixed>
      */

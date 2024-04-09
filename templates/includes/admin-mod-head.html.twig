@@ -1,0 +1,14 @@
+{# @webhooks/includes/admin-mod-head.html.twig #}
+
+{% block admin_mod_head %}
+<div class="xar-mod-head">
+        <span class="xar-mod-title">
+            {% if xar_modulevar('webhooks', 'use_module_alias') %}
+                {{ xar_var({scope: "module", module: "webhooks", name: "module_alias_name"}) }}
+            {% else %}
+                Webhooks Administration
+            {% endif %}
+        </span>
+        {{ include('@webhooks/includes/admin-menu.html.twig') }}
+    </div>
+{% endblock %}

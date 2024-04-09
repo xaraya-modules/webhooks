@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">
+    <!-- License: GPL http://www.gnu.org/copyleft/gpl.html -->
+    <xar:template file="admin-mod-head"/>
+    <div class="xar-mod-body">
+        <div class="xar-mod-page-head">
+            <xar:var name="label">Official Icon</xar:var>
+            <img src="#xarTpl::getImage('module-generic.png', 'base')#" alt="#$label#" width="96" height="96" class="xar-module-icon" />
+            <h2 class="xar-mod-pagetitle">Overview</h2>
+        </div>
+        <div class="xar-mod-page-body">
+            <h3>What is it?</h3>
+            <p>
+                The Webhooks module is a Xaraya utility module.
+                It allows you to configure webhooks to and from Xaraya.
+            </p>
+        </div>
+    </div>
+</xar:template>

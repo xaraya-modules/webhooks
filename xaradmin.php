@@ -7,20 +7,20 @@
  * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
  * @link http://xaraya.info/index.php/release/182630.html
  */
-sys::import('modules.webhooks.class.usergui');
-use Xaraya\Modules\Webhooks\UserGui;
+sys::import('modules.webhooks.class.admingui');
+use Xaraya\Modules\Webhooks\AdminGui;
 
 /**
- * User main
+ * Admin main
  *
- * @uses Xaraya\Modules\Webhooks\UserGui::main()
+ * @uses Xaraya\Modules\Webhooks\AdminGui::main()
  * @param array<string, mixed> $args
  * @param mixed $context
  * @return mixed template variables or output in HTML
  */
-function webhooks_user_main(array $args = [], $context = null)
+function webhooks_admin_main(array $args = [], $context = null)
 {
-    $usergui = new UserGui();
-    $usergui->setContext($context);
-    return $usergui->main($args);
+    $admingui = new AdminGui();
+    $admingui->setContext($context);
+    return $admingui->main($args);
 }

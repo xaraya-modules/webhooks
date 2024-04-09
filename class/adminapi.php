@@ -23,7 +23,7 @@ sys::import('modules.dynamicdata.class.traits.userapi');
 /**
  * Class to handle the Webhooks User API (static for now)
  */
-class UserApi implements UserApiInterface
+class AdminApi implements UserApiInterface
 {
     use UserApiTrait;
 

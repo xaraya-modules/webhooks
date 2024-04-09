@@ -3,11 +3,11 @@
 use PHPUnit\Framework\TestCase;
 use Xaraya\Context\Context;
 use Xaraya\Context\SessionContext;
-use Xaraya\Modules\Webhooks\UserApi;
+use Xaraya\Modules\Webhooks\AdminApi;
 
 //use Xaraya\Sessions\SessionHandler;
 
-final class UserApiTest extends TestCase
+final class AdminApiTest extends TestCase
 {
     protected static $oldDir;
 
@@ -41,10 +41,10 @@ final class UserApiTest extends TestCase
 
     protected function tearDown(): void {}
 
-    public function testUserApi(): void
+    public function testAdminApi(): void
     {
         $expected = 0;
-        $itemtypes = UserApi::getItemTypes();
+        $itemtypes = AdminApi::getItemTypes();
         $this->assertCount($expected, $itemtypes);
     }
 }

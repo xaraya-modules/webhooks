@@ -3,11 +3,11 @@
 use PHPUnit\Framework\TestCase;
 use Xaraya\Context\Context;
 use Xaraya\Context\SessionContext;
-use Xaraya\Modules\Webhooks\UserGui;
+use Xaraya\Modules\Webhooks\AdminGui;
 
 //use Xaraya\Sessions\SessionHandler;
 
-final class UserGuiTest extends TestCase
+final class AdminGuiTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -32,21 +32,21 @@ final class UserGuiTest extends TestCase
 
     protected function tearDown(): void {}
 
-    public function testUserGui(): void
+    public function testAdminGui(): void
     {
-        $expected = UserGui::class;
-        $usergui = new UserGui();
-        $this->assertEquals($expected, $usergui::class);
+        $expected = AdminGui::class;
+        $admingui = new AdminGui();
+        $this->assertEquals($expected, $admingui::class);
     }
 
     public function testMain(): void
     {
         $context = null;
-        $usergui = new UserGui();
-        $usergui->setContext($context);
+        $admingui = new AdminGui();
+        $admingui->setContext($context);
 
         $args = ['hello' => 'world'];
-        $data = $usergui->main($args);
+        $data = $admingui->main($args);
 
         $expected = array_merge($args, [
             'context' => $context,
