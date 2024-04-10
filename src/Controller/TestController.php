@@ -2,36 +2,20 @@
 /**
  * Webhook Test Controller
  * independent of the Symfony Webhook + RemoteEvent + Messenger combo
+ * or the Laravel (Spatie) Webhook Client Controller + Processor + ...
  *
  * @see https://github.com/symfony/symfony/blob/7.0/src/Symfony/Component/Webhook/Controller/WebhookController.php
+ * @see https://github.com/spatie/laravel-webhook-client/blob/main/src/Http/Controllers/WebhookController.php
  */
 
 namespace Xaraya\Modules\Webhooks\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Exception;
 
-class WebhookTestController
+class TestController
 {
-    protected mixed $config;
-
-    public function __construct()
-    {
-        $this->getConfig();
-    }
-
-    public function getConfig(): void
-    {
-        // ...
-        $rootDir = dirname(__DIR__, 5);
-        $apiCacheDir = $rootDir . '/html/var/cache/api';
-        try {
-            $this->config = include $apiCacheDir . '/webhooks_config.php';
-        } catch (Exception) {
-            $this->config = [];
-        }
-    }
+    public function __construct(array $config = []) {}
 
     public function handle(string $type, Request $request): Response
     {
