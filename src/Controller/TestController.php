@@ -17,7 +17,7 @@ class TestController
 {
     public function __construct(array $config = []) {}
 
-    public function handle(string $type, Request $request): Response
+    public function handle(mixed $type, Request $request): Response
     {
         //$type = $request->query->get('type', 'webhook');
         // ...
@@ -25,6 +25,7 @@ class TestController
         // $item = array('module' => $module, 'itemid' => $itemid [, 'itemtype' => $itemtype, ...]);
         // xarHooks::notify('ItemCreate', $item);
         // ...
-        return new Response('Hello, World!');
+        $name = rawurlencode(ucwords($request->get('name', 'world')));
+        return new Response("Hello, {$name}!");
     }
 }

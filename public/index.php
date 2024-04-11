@@ -2,17 +2,25 @@
 /**
  * Entrypoint for webhooks (via ws.php)
  */
+if (empty($_SERVER['SERVER_FRAMEWORK'])) {
+    require_once dirname(__DIR__) . '/vendor/autoload.php';
+}
 
+use Symfony\Component\HttpFoundation\Request;
 use Xaraya\Modules\Webhooks\Configuration\WebhooksConfig;
 
 // access via ws.php
-if (php_sapi_name() === 'cli' || empty($_SERVER['SERVER_FRAMEWORK'])) {
+//if (php_sapi_name() === 'cli' || empty($_SERVER['SERVER_FRAMEWORK'])) {
+if (php_sapi_name() === 'cli') {
     echo 'Entrypoint for webhooks (via ws.php)';
     return;
 }
 
+$request = Request::createFromGlobals();
+$path = $request->getPathInfo();
+
 // name is the second part in path info, e.g. /webhook/github/...
-$parts = explode('/', trim($_SERVER['PATH_INFO'], '/'));
+$parts = explode('/', trim($path, '/'));
 $type = array_shift($parts);
 $name = array_shift($parts) ?? '';
 

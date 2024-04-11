@@ -64,6 +64,12 @@ class WebhooksConfig
                 'mapping' => [
                 ],
             ],
+            'hello' => [
+                'endpoint' => \Xaraya\Modules\Webhooks\Endpoint\SymfonyEndpoint::class,
+                'parsers' => [
+                ],
+                'bus' => null,
+            ],
         ];
     }
 

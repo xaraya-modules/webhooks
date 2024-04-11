@@ -6,7 +6,11 @@
     "license": "GPL-2.0-or-later",
     "config": {
         "optimize-autoloader": true,
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/runtime": false,
+            "symfony/flex": false
+        }
     },
     "minimum-stability": "stable",
     "conflict": {
@@ -18,6 +22,19 @@
     "require": {
         "illuminate/http": "^11.3",
         "spatie/laravel-webhook-client": "^3.3",
-        "symfony/webhook": "^6.4 || ^7.0"
+        "symfony/http-foundation": "^7.0"
+    },
+    "require-dev": {
+        "xaraya/with-symfony": "^0.2"
+    },
+    "suggest": {
+        "xaraya/with-symfony": "Integrate Xaraya with Symfony applications",
+        "xaraya/with-laravel": "Integrate Xaraya with Laravel applications"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        }
     }
 }
