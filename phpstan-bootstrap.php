@@ -1,7 +1,9 @@
 <?php
 
 require_once dirname(__DIR__, 2) . '/xaraya-core/phpstan-bootstrap.php';
-require_once __DIR__ . '/vendor/autoload.php';
+if (!class_exists('\Xaraya\Modules\Webhooks\AdminApi')) {
+    require_once __DIR__ . '/vendor/autoload.php';
+}
 
 if (!function_exists('xarML')) {
     /**

@@ -5,6 +5,7 @@
 
 namespace Xaraya\Modules\Webhooks\Configuration;
 
+use Xaraya\Modules\Webhooks\Controller\TestController;
 use Exception;
 use Throwable;
 
@@ -45,18 +46,24 @@ class WebhooksConfig
             ],
             'symfony' => [
                 'endpoint' => \Xaraya\Modules\Webhooks\Endpoint\SymfonyEndpoint::class,
-                'parsers' => [
+                'mapping' => [
+                    '/symfony/' => '/',
                 ],
-                'bus' => null,
             ],
             'laravel' => [
                 'endpoint' => \Xaraya\Modules\Webhooks\Endpoint\LaravelEndpoint::class,
                 'mapping' => [
+                    '/laravel/' => '/',
                 ],
             ],
             'fastroute' => [
                 'endpoint' => \Xaraya\Modules\Webhooks\Endpoint\FastRouteEndpoint::class,
                 'mapping' => [
+                    // '/fastroute/' => '/',
+                ],
+                'routes' => [
+                    // ['GET', '/', [TestController::class, 'handle']],
+                    ['GET', '/fastroute/', [TestController::class, 'handle']],
                 ],
             ],
             'test' => [
@@ -70,15 +77,45 @@ class WebhooksConfig
                 ],
                 'bus' => null,
             ],
+            'hello-laravel' => [
+                'endpoint' => \Xaraya\Modules\Webhooks\Endpoint\LaravelEndpoint::class,
+                'mapping' => [
+                ],
+            ],
         ];
     }
 
-    public function getEndpoint(string $name = '')
+    public function getEndpoint(string $type = '', string $name = '')
     {
-        $name = $name ?: 'test';
+        $type = $type ?: 'webhook';
+        $name = $name ?: 'home';
+        if ($type !== 'webhook') {
+            // pass through to other framework
+            if (empty($this->config[$type])) {
+                throw new Exception('Invalid entrypoint for ' . htmlspecialchars($type));
+            }
+            // map original uri to framework uri
+            $mapping = $this->config[$type]['mapping'] ?? [];
+            if (!empty($mapping)) {
+                $_SERVER['REQUEST_URI'] = str_replace(array_keys($mapping), array_values($mapping), $_SERVER['REQUEST_URI']);
+                if (!empty($_SERVER['PATH_INFO'])) {
+                    $_SERVER['PATH_INFO'] = str_replace(array_keys($mapping), array_values($mapping), $_SERVER['PATH_INFO']);
+                }
+            }
+            $name = $type;
+        }
         if (empty($this->config[$name])) {
             throw new Exception('Invalid entrypoint for ' . htmlspecialchars($name));
         }
         return new $this->config[$name]['endpoint']($this->config[$name]);
+    }
+
+    public function getWebhooks()
+    {
+        return [
+            'webhook/test',
+            'webhook/hello',
+            'webhook/hello-laravel',
+        ];
     }
 }

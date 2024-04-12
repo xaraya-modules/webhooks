@@ -3,6 +3,7 @@ parameters:
     paths:
         - .
     excludePaths:
+        - var/*
         - vendor/*
     bootstrapFiles:
         - phpstan-bootstrap.php

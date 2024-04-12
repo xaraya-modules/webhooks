@@ -35,7 +35,6 @@ class SymfonyEndpoint
 
     public function run()
     {
-        //$this->runWithKernel();
         $this->runWithApp();
     }
 

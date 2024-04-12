@@ -2,9 +2,9 @@
 
 The following providers may be available to process incoming webhook calls (someday):
 
-1. Xaraya module api functions and object methods
+1. [Test controller](./src/Controller/TestController.php)
 2. [FastRoute](https://github.com/nikic/FastRoute) dispatcher handlers
-3. Test controller
+3. [Xaraya](https://github.com/xaraya/core) module api functions and object methods
 
 You can integrate applications using other frameworks via composer:
 

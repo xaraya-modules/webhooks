@@ -27,10 +27,17 @@ $name = array_shift($parts) ?? '';
 // find the right endpoint (Xaraya, Symfony, Laravel, FastRoute, Test, ...)
 $config = new WebhooksConfig();
 try {
-    $entrypoint = $config->getEndpoint($name);
+    $entrypoint = $config->getEndpoint($type, $name);
 } catch (Throwable $e) {
     http_response_code(404);
     echo $e->getMessage();
+    $webhooks = $config->getWebhooks();
+    $prefix = $request->getBaseUrl() . '/';
+    echo '<pre>';
+    foreach ($webhooks as $name) {
+        echo '- <a href="' . $prefix . $name . '">' . $name . "</a>\n";
+    }
+    echo '</pre>';
     return;
 }
 

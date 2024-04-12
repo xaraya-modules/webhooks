@@ -12,6 +12,10 @@ coverage/
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
-/var/
+#/var/
+/var/cache/
+/var/log/
 #/vendor/
 ###< symfony/framework-bundle ###
+/var/bootstrap/
+/var/storage/

@@ -17,7 +17,10 @@ class TestController
 {
     public function __construct(array $config = []) {}
 
-    public function handle(mixed $type, Request $request): Response
+    /**
+     * @param array<string, mixed> $pathParams from FastRoute dispatcher (optional)
+     */
+    public function handle(mixed $type, Request $request, array $pathParams = []): Response
     {
         //$type = $request->query->get('type', 'webhook');
         // ...
