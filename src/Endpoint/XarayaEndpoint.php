@@ -1,10 +1,4 @@
 <?php
-/**
- * Entrypoint for webhooks (via ws.php) using Xaraya Core
- * Note: require_once vendor/autoload.php and sys::init() already done in ws.php
- *
- * @see https://github.com/xaraya/core
- */
 
 namespace Xaraya\Modules\Webhooks\Endpoint;
 
@@ -15,7 +9,13 @@ use xarLog;
 use xarRequest;
 use sys;
 
-class XarayaEndpoint
+/**
+ * Entrypoint for webhooks (via ws.php) using Xaraya Core
+ * Note: require_once vendor/autoload.php and sys::init() already done in ws.php
+ *
+ * @see https://github.com/xaraya/core
+ */
+class XarayaEndpoint implements EndpointInterface
 {
     /** @var array<string, mixed> */
     protected array $config = [];

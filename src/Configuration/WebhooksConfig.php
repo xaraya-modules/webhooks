@@ -1,14 +1,13 @@
 <?php
-/**
- * Webhooks module configuration
- */
 
 namespace Xaraya\Modules\Webhooks\Configuration;
 
-use Xaraya\Modules\Webhooks\Controller\TestController;
 use Exception;
 use Throwable;
 
+/**
+ * Webhooks module configuration
+ */
 class WebhooksConfig
 {
     /** @var array<string, mixed> */
@@ -21,12 +20,11 @@ class WebhooksConfig
 
     public function loadConfig(): void
     {
-        $rootDir = dirname(__DIR__, 5);
-        $apiCacheDir = $rootDir . '/html/var/cache/api';
+        $filepath = dirname(__DIR__, 5) . '/html/var/cache/api/webhooks_config.php';
         try {
-            $this->config = require $apiCacheDir . '/webhooks_config.php';
+            $this->config = require $filepath;
         } catch (Throwable) {
-            file_put_contents($apiCacheDir . '/webhooks_config.php', '<?' . "php\nreturn [];");
+            //file_put_contents($filepath, "<?php\n\nreturn [];\n");
         }
         if (empty($this->config)) {
             $this->config = $this->getDefaultConfig();
@@ -38,84 +36,82 @@ class WebhooksConfig
      */
     public function getDefaultConfig()
     {
-        return [
-            'xaraya' => [
-                'endpoint' => \Xaraya\Modules\Webhooks\Endpoint\XarayaEndpoint::class,
-                'mapping' => [
-                ],
-            ],
-            'symfony' => [
-                'endpoint' => \Xaraya\Modules\Webhooks\Endpoint\SymfonyEndpoint::class,
-                'mapping' => [
-                    '/symfony/' => '/',
-                ],
-            ],
-            'laravel' => [
-                'endpoint' => \Xaraya\Modules\Webhooks\Endpoint\LaravelEndpoint::class,
-                'mapping' => [
-                    '/laravel/' => '/',
-                ],
-            ],
-            'fastroute' => [
-                'endpoint' => \Xaraya\Modules\Webhooks\Endpoint\FastRouteEndpoint::class,
-                'mapping' => [
-                    // '/fastroute/' => '/',
-                ],
-                'routes' => [
-                    // ['GET', '/', [TestController::class, 'handle']],
-                    ['GET', '/fastroute/', [TestController::class, 'handle']],
-                ],
-            ],
-            'test' => [
-                'endpoint' => \Xaraya\Modules\Webhooks\Endpoint\TestEndpoint::class,
-                'mapping' => [
-                ],
-            ],
-            'hello' => [
-                'endpoint' => \Xaraya\Modules\Webhooks\Endpoint\SymfonyEndpoint::class,
-                'parsers' => [
-                ],
-                'bus' => null,
-            ],
-            'hello-laravel' => [
-                'endpoint' => \Xaraya\Modules\Webhooks\Endpoint\LaravelEndpoint::class,
-                'mapping' => [
-                ],
-            ],
-        ];
+        return require dirname(__DIR__, 2) . '/xardata/webhooks_config.php';
     }
 
+    /**
+     * @return array<string, mixed>
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * @param array<string, mixed> $config
+     * @return void
+     */
+    public function setConfig(array $config = [])
+    {
+        $this->config = $config;
+    }
+
+    /**
+     * @return void
+     */
+    public function saveConfig(string $filepath)
+    {
+        $output = "<?php\n\n\$config = " . var_export($this->config, true) . ";\n";
+        $output .= "return \$config;\n";
+        file_put_contents($filepath, $output);
+    }
+
+    /**
+     * @uses \sys::autoload()
+     * @return object
+     */
     public function getEndpoint(string $type = '', string $name = '')
     {
         $type = $type ?: 'webhook';
         $name = $name ?: 'home';
-        if ($type !== 'webhook') {
-            // pass through to other framework
-            if (empty($this->config[$type])) {
-                throw new Exception('Invalid entrypoint for ' . htmlspecialchars($type));
-            }
-            // map original uri to framework uri
-            $mapping = $this->config[$type]['mapping'] ?? [];
+        if ($type === 'passthru') {
+            // map original uri to framework uri: from /passthru/symfony/... to /...
+            $mapping = [
+                '/' . $type . '/' . $name . '/' => '/',
+            ];
             if (!empty($mapping)) {
                 $_SERVER['REQUEST_URI'] = str_replace(array_keys($mapping), array_values($mapping), $_SERVER['REQUEST_URI']);
                 if (!empty($_SERVER['PATH_INFO'])) {
                     $_SERVER['PATH_INFO'] = str_replace(array_keys($mapping), array_values($mapping), $_SERVER['PATH_INFO']);
                 }
             }
-            $name = $type;
+            // pass through to other framework
         }
         if (empty($this->config[$name])) {
             throw new Exception('Invalid entrypoint for ' . htmlspecialchars($name));
         }
+        if (empty($this->config[$name]['enabled'])) {
+            throw new Exception('Disabled entrypoint for ' . htmlspecialchars($name));
+        }
         return new $this->config[$name]['endpoint']($this->config[$name]);
     }
 
-    public function getWebhooks()
+    /**
+     * @return list<string>
+     */
+    public function listWebhooks()
     {
-        return [
-            'webhook/test',
-            'webhook/hello',
-            'webhook/hello-laravel',
-        ];
+        $webhooks = [];
+        foreach ($this->config as $name => $values) {
+            if (empty($values['enabled'])) {
+                continue;
+            }
+            if ($values['type'] == 'passthru') {
+                $webhooks[] = $values['type'] . '/' . $values['name'] . '/';
+            } else {
+                $webhooks[] = $values['type'] . '/' . $values['name'];
+            }
+        }
+        return $webhooks;
     }
 }

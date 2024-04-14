@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xar:template xmlns:xar="http://xaraya.com/2004/blocklayout">
+    <!-- License: GPL http://www.gnu.org/copyleft/gpl.html -->
+    <xar:template file="admin-mod-head"/>
+    <div class="xar-mod-body">
+        <h2>Modify Webhooks Configuration</h2>
+        <form method="post" action="#xarServer::getCurrentURL()#">
+            <xar:foreach in="$config" key="$name" value="$value">
+                <fieldset>
+                    <legend>#ucfirst($value['type'])# #ucwords(str_replace('-', ' ', $name))#</legend>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <xar:var name="label">Webhook name</xar:var>
+                            <label for="input_#$name#_name" title="#$label#" class="xar-form-label">
+                                Name
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            #$value['name']#
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <xar:var name="label">Webhook type</xar:var>
+                            <label for="input_#$name#_type" title="#$label#" class="xar-form-label">
+                                Type
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            #$value['type']#
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <xar:var name="label">Webhook uri path starts with</xar:var>
+                            <label for="input_#$name#_path" title="#$label#" class="xar-form-label">
+                                URI Path
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            <xar:if condition="$value['type'] eq 'passthru'">
+                                <a href="ws.php/passthru/#$name#/" target="_new">/passthru/#$name#/...</a> (becomes /... for #$name# app)
+                            <xar:else/>
+                                <a href="ws.php/webhook/#$name#" target="_new">/webhook/#$name#</a>
+                            </xar:if>
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <xar:var name="label">Endpoint class used</xar:var>
+                            <label for="input_#$name#_endpoint" title="#$label#" class="xar-form-label">
+                                Endpoint Class
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            <i>#$value['endpoint']#</i>
+                            <xar:set name="parts">explode('\\', $value['endpoint'])</xar:set>
+                            <br/>in vendor/xaraya/webhooks/src/Endpoint/#end($parts)#.php
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <xar:var name="label">Composer package required</xar:var>
+                            <label for="input_#$name#_package" title="#$label#" class="xar-form-label">
+                                Composer Package
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            <a href="https://packagist.org/packages/#$value['package']#" target="_new">#$value['package']#</a>
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <xar:var name="label">Environment variables defined</xar:var>
+                            <label for="input_#$name#_env_0" title="#$label#" class="xar-form-label">
+                                Environment Vars
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            <xar:if condition="!empty($value['environment'])">
+                                <fieldset>
+                                <xar:foreach in="$value['environment']" key="$key" value="$val">
+                                    <div class="xar-row">
+                                        <div class="xar-col" style="width: 50%">
+                                            #$key#
+                                        </div>
+                                        <div class="xar-col" style="width: 50%">
+                                            #$val#
+                                        </div>
+                                    </div>
+                                </xar:foreach>
+                                </fieldset>
+                                See html/var/cache/api/webhooks_config.php after Update
+                            <xar:else/>
+                                -
+                            </xar:if>
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            <xar:var name="label">Webhook is enabled or disabled</xar:var>
+                            <label for="input_#$name#_enabled" title="#$label#" class="xar-form-label">
+                                Enable Webhook
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            <xar:if condition="!empty($value['enabled'])">
+                                <input type="checkbox" id="input_#$name#_enabled" name="input[#$name#][enabled]" checked="true"/>
+                            <xar:else/>
+                                <input type="checkbox" id="input_#$name#_enabled" name="input[#$name#][enabled]"/>
+                        </xar:if>
+                        </div>
+                    </div>
+                </fieldset>
+            </xar:foreach>
+            <xar:template file="update-button" module="base" />
+        </form>
+    </div>
+</xar:template>

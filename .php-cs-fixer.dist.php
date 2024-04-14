@@ -2,6 +2,11 @@
 
 $finder = (new PhpCsFixer\Finder())
     ->in(__DIR__)
+    ->exclude([
+        'coverage',
+        'var',
+        'vendor',
+    ])
 ;
 
 return (new PhpCsFixer\Config())

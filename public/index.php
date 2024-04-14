@@ -3,18 +3,16 @@
  * Entrypoint for webhooks (via ws.php)
  */
 if (empty($_SERVER['SERVER_FRAMEWORK'])) {
+    if (php_sapi_name() === 'cli' ||
+        !is_dir(dirname(__DIR__) . '/vendor')) {
+        echo 'Entrypoint for webhooks (via ws.php)';
+        return;
+    }
     require_once dirname(__DIR__) . '/vendor/autoload.php';
 }
 
 use Symfony\Component\HttpFoundation\Request;
 use Xaraya\Modules\Webhooks\Configuration\WebhooksConfig;
-
-// access via ws.php
-//if (php_sapi_name() === 'cli' || empty($_SERVER['SERVER_FRAMEWORK'])) {
-if (php_sapi_name() === 'cli') {
-    echo 'Entrypoint for webhooks (via ws.php)';
-    return;
-}
 
 $request = Request::createFromGlobals();
 $path = $request->getPathInfo();
@@ -31,7 +29,7 @@ try {
 } catch (Throwable $e) {
     http_response_code(404);
     echo $e->getMessage();
-    $webhooks = $config->getWebhooks();
+    $webhooks = $config->listWebhooks();
     $prefix = $request->getBaseUrl() . '/';
     echo '<pre>';
     foreach ($webhooks as $name) {

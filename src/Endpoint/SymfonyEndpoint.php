@@ -1,9 +1,4 @@
 <?php
-/**
- * Entrypoint for webhooks (via ws.php) using Symfony Webhook
- *
- * @see https://github.com/symfony/webhook
- */
 
 namespace Xaraya\Modules\Webhooks\Endpoint;
 
@@ -18,7 +13,12 @@ use Xaraya\Modules\Webhooks\Controller\TestController;
 use Xaraya\SymfonyApp\Kernel;
 use TypeError;
 
-class SymfonyEndpoint
+/**
+ * Entrypoint for webhooks (via ws.php) using Symfony Webhook
+ *
+ * @see https://github.com/symfony/webhook
+ */
+class SymfonyEndpoint implements EndpointInterface
 {
     /** @var array<string, mixed> */
     protected array $config = [];
@@ -124,11 +124,20 @@ class SymfonyEndpoint
         while (strlen($dir) > 1 && str_contains($dir, '/vendor')) {
             $dir = dirname($dir);
         }
-        // @todo verify default app settings
-        $_ENV['APP_DEBUG'] = 0;
-        $_ENV['APP_WEBHOOK_ECHO'] = 1;
-        $_ENV['APP_CACHE_DIR'] = $dir . '/var/cache';
-        $_ENV['APP_LOG_DIR'] = $dir . '/var/log';
+        foreach ($this->getConfig('environment') as $key => $value) {
+            if (str_ends_with($key, '_DIR') || str_ends_with($key, '_PATH')) {
+                // fix dirs relative to root dir
+                if (!str_starts_with($key, '/')) {
+                    $value = $dir . '/' . $value;
+                }
+                // create dir if needed
+                if (!is_dir($value)) {
+                    mkdir($value, 0o755, true);
+                }
+            }
+            // set env var only if it's not defined yet
+            $_ENV[$key] ??= $value;
+        }
 
         $runtime = $_SERVER['APP_RUNTIME'] ?? $_ENV['APP_RUNTIME'] ?? 'Symfony\\Component\\Runtime\\SymfonyRuntime';
         $runtime = new $runtime(($_SERVER['APP_RUNTIME_OPTIONS'] ?? $_ENV['APP_RUNTIME_OPTIONS'] ?? []) + [

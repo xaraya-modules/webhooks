@@ -11,8 +11,38 @@
         <div class="xar-mod-page-body">
             <h3>What is it?</h3>
             <p>
-                The Webhooks module is a Xaraya utility module.
-                It allows you to configure webhooks to and from Xaraya.
+                The Webhooks module allows you to configure webhooks to and from Xaraya. (WIP)
+            </p>
+            <h3>Available Webhooks</h3>
+            <p>
+                The following providers may be available to process incoming webhook calls (someday):
+                <ol>
+                    <li><a href="https://github.com/xaraya-modules/webhooks/blob/main/src/Controller/TestController.php">Test controller</a></li>
+                    <li><a href="https://github.com/nikic/FastRoute">FastRoute</a> dispatcher handlers</li>
+                    <li><a href="https://github.com/xaraya/core">Xaraya</a> module api functions and object methods</li>
+                </ol>
+                You can integrate applications using other frameworks via composer:
+                <ol start="4">
+                    <li><a href="https://packagist.org/packages/xaraya/with-symfony">xaraya/with-symfony</a> package: use <a href="https://symfony.com/doc/current/webhook.html">Symfony Webhook</a> and <a href="https://symfony.com/components/RemoteEvent">Symfony RemoteEvent</a> in combination with Symfony <a href="https://symfony.com/doc/current/mailer.html#mailer_3rd_party_transport">Mailer</a> or <a href="https://symfony.com/doc/current/notifier.html">Notifier</a> components</li>
+                    <li><a href="https://packagist.org/packages/xaraya/with-laravel">xaraya/with-laravel</a> package. use <a href="https://github.com/spatie/laravel-webhook-client">Laravel (Spatie) Webhook Client</a> with many <a href="https://packagist.org/packages/spatie/laravel-webhook-client/dependents?order_by=downloads">existing packages</a> to process webhook calls from other providers</li>
+                </ol>
+                Note: this requires a writable <i>var/</i> directory under the root directory.
+            </p>
+            <h3>Passthru Integration</h3>
+            <p>
+                The xaraya/with-* packages also allow you to pass through *other* URLs besides webhooks to Symfony or Laravel applications.
+                This can be enabled or disabled in <a href="{{ xar_moduleurl('webhooks', 'admin', 'modifyconfig') }}">Modify Configuration</a>.
+            </p>
+            <h3>Test Webhooks</h3>
+            <p>
+                <ul>
+                    <li><a href="ws.php/webhook/test">webhook/test</a></li>
+                    <li><a href="ws.php/webhook/fastroute">webhook/fastroute</a></li>
+                    <li><a href="ws.php/webhook/hello">webhook/hello</a></li>
+                    <li><a href="ws.php/webhook/hello-laravel">webhook/hello-laravel</a></li>
+                    <li><a href="ws.php/passthru/symfony/">passthru/symfony/...</a></li>
+                    <li><a href="ws.php/passthru/laravel/">passthru/laravel/...</a></li>
+                </ul>
             </p>
         </div>
     </div>

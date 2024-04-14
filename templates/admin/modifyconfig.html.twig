@@ -1,0 +1,119 @@
+{# @webhooks/admin/modifyconfig.html.twig #}
+
+{% block modifyconfig %}
+    {{ include('@webhooks/includes/admin-mod-head.html.twig') }}
+    <div class="xar-mod-body">
+        <h2>Modify Webhooks Configuration</h2>
+        <form method="post" action="{{ xar_currenturl() }}">
+            {% for name, value in config %}
+                <fieldset>
+                    <legend>{{ value['type']|title }} {{ name|replace({'-':' '})|title }}</legend>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            {% set label = 'Webhook name' %}
+                            <label for="input_{{ name }}_name" title="{{ label }}" class="xar-form-label">
+                                Name
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            {{ value['name'] }}
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            {% set label = 'Webhook type' %}
+                            <label for="input_{{ name }}_type" title="{{ label }}" class="xar-form-label">
+                                Type
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            {{ value['type'] }}
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            {% set label = 'Webhook uri path starts with' %}
+                            <label for="input_{{ name }}_path" title="{{ label }}" class="xar-form-label">
+                                URI Path
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            {% if value['type'] == 'passthru' %}
+                                <a href="ws.php/passthru/{{ name }}/" target="_new">/passthru/{{ name }}/...</a> (becomes /... for {{ name }} app)
+                            {% else %}
+                                <a href="ws.php/webhook/{{ name }}" target="_new">/webhook/{{ name }}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            {% set label = 'Endpoint class used' %}
+                            <label for="input_{{ name }}_endpoint" title="{{ label }}" class="xar-form-label">
+                                Endpoint Class
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            <i>{{ value['endpoint'] }}</i>
+                            {% set parts = value['endpoint']|split('\\') %}
+                            <br/>in vendor/xaraya/webhooks/src/Endpoint/{{ parts|last }}.php
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            {% set label = 'Composer package required' %}
+                            <label for="input_{{ name }}_package" title="{{ label }}" class="xar-form-label">
+                                Composer Package
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            <a href="https://packagist.org/packages/{{ value['package'] }}" target="_new">{{ value['package'] }}</a>
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            {% set label = 'Environment variables defined' %}
+                            <label for="input_{{ name }}_env_0" title="{{ label }}" class="xar-form-label">
+                                Environment Vars
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            {% if value['environment'] %}
+                                <fieldset>
+                                {% for key, val in value['environment'] %}
+                                    <div class="xar-row">
+                                        <div class="xar-col" style="width: 50%">
+                                            {{ key }}
+                                        </div>
+                                        <div class="xar-col" style="width: 50%">
+                                            {{ val }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                </fieldset>
+                                See html/var/cache/api/webhooks_config.php after Update
+                            {% else %}
+                                -
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="xar-row">
+                        <div class="xar-col">
+                            {% set label = 'Webhook is enabled or disabled' %}
+                            <label for="input_{{ name }}_enabled" title="{{ label }}" class="xar-form-label">
+                                Enable Webhook
+                            </label>
+                        </div>
+                        <div class="xar-col">
+                            {% if value['enabled'] %}
+                                <input type="checkbox" id="input_{{ name }}_enabled" name="input[{{ name }}][enabled]" checked="true"/>
+                            {% else %}
+                                <input type="checkbox" id="input_{{ name }}_enabled" name="input[{{ name }}][enabled]"/>
+                            {% endif %}
+                        </div>
+                    </div>
+                </fieldset>
+            {% endfor %}
+            {{ include('@base/includes/update-button.html.twig') }}
+        </form>
+    </div>
+{% endblock %}

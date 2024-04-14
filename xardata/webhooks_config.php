@@ -1,0 +1,97 @@
+<?php
+
+// TODO: replace APP_SECRET / APP_KEY with your own for production
+$config = [
+    'test' => [
+        'type' => 'webhook',
+        'name' => 'test',
+        'package' => 'symfony/http-foundation',
+        'endpoint' => 'Xaraya\\Modules\\Webhooks\\Endpoint\\TestEndpoint',
+        'environment' => [],
+        'enabled' => true,
+    ],
+    'fastroute' => [
+        'type' => 'webhook',
+        'name' => 'fastroute',
+        'package' => 'nikic/fast-route',
+        'endpoint' => 'Xaraya\\Modules\\Webhooks\\Endpoint\\FastRouteEndpoint',
+        'routes' => [
+            ['GET', '/webhook/fastroute', ['Xaraya\\Modules\\Webhooks\\Controller\\TestController', 'handle', ]],
+        ],
+        'environment' => [],
+        'enabled' => true,
+    ],
+    'xaraya' => [
+        'type' => 'webhook',
+        'name' => 'xaraya',
+        'package' => 'xaraya/webhooks',
+        'endpoint' => 'Xaraya\\Modules\\Webhooks\\Endpoint\\XarayaEndpoint',
+        'environment' => [],
+        'enabled' => false,
+    ],
+    'hello' => [
+        'type' => 'webhook',
+        'name' => 'hello',
+        'package' => 'xaraya/with-symfony',
+        'endpoint' => 'Xaraya\\Modules\\Webhooks\\Endpoint\\SymfonyEndpoint',
+        'environment' => [
+            'APP_DEBUG' => 0,
+            'APP_WEBHOOK_ECHO' => 1,
+            'APP_ENV' => 'dev',
+            'APP_SECRET' => '85698b634abd8de5d449cd0cbef19698',
+            'APP_CACHE_DIR' => 'var/cache',
+            'APP_LOG_DIR' => 'var/log',
+        ],
+        'enabled' => true,
+    ],
+    'hello-laravel' => [
+        'type' => 'webhook',
+        'name' => 'hello-laravel',
+        'package' => 'xaraya/with-laravel',
+        'endpoint' => 'Xaraya\\Modules\\Webhooks\\Endpoint\\LaravelEndpoint',
+        'environment' => [
+            'APP_DEBUG' => 0,
+            'APP_WEBHOOK_ECHO' => 1,
+            'APP_ENV' => 'local',
+            'APP_KEY' => 'base64:ODU2OThiNjM0YWJkOGRlNWQ0NDljZDBjYmVmMTk2OTg=',
+            'COMPOSER_VENDOR_DIR' => 'vendor',
+            'LARAVEL_BOOTSTRAP_PATH' => 'var/bootstrap',
+            'LARAVEL_DATABASE_PATH' => 'var/database',
+            'LARAVEL_STORAGE_PATH' => 'var/storage',
+            'VIEW_COMPILED_PATH' => 'var/storage/framework/views',
+        ],
+        'enabled' => true,
+    ],
+    'symfony' => [
+        'type' => 'passthru',
+        'name' => 'symfony',
+        'package' => 'xaraya/with-symfony',
+        'endpoint' => 'Xaraya\\Modules\\Webhooks\\Endpoint\\SymfonyEndpoint',
+        'environment' => [
+            'APP_DEBUG' => 1,
+            'APP_ENV' => 'dev',
+            'APP_SECRET' => '85698b634abd8de5d449cd0cbef19698',
+            'APP_CACHE_DIR' => 'var/cache',
+            'APP_LOG_DIR' => 'var/log',
+        ],
+        'enabled' => false,
+    ],
+    'laravel' => [
+        'type' => 'passthru',
+        'name' => 'laravel',
+        'package' => 'xaraya/with-laravel',
+        'endpoint' => 'Xaraya\\Modules\\Webhooks\\Endpoint\\LaravelEndpoint',
+        'environment' => [
+            'APP_DEBUG' => 1,
+            'APP_ENV' => 'local',
+            'APP_KEY' => 'base64:ODU2OThiNjM0YWJkOGRlNWQ0NDljZDBjYmVmMTk2OTg=',
+            'COMPOSER_VENDOR_DIR' => 'vendor',
+            'LARAVEL_BOOTSTRAP_PATH' => 'var/bootstrap',
+            'LARAVEL_DATABASE_PATH' => 'var/database',
+            'LARAVEL_STORAGE_PATH' => 'var/storage',
+            'VIEW_COMPILED_PATH' => 'var/storage/framework/views',
+        ],
+        'enabled' => false,
+    ],
+];
+return $config;

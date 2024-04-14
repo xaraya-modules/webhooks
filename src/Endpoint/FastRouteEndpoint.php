@@ -1,9 +1,4 @@
 <?php
-/**
- * Entrypoint for webhooks (via ws.php) using FastRoute dispatcher
- *
- * @see https://github.com/xaraya/core
- */
 
 namespace Xaraya\Modules\Webhooks\Endpoint;
 
@@ -14,7 +9,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 use function FastRoute\simpleDispatcher;
 
-class FastRouteEndpoint
+/**
+ * Entrypoint for webhooks (via ws.php) using FastRoute dispatcher
+ *
+ * @see https://github.com/nikic/FastRoute
+ */
+class FastRouteEndpoint implements EndpointInterface
 {
     /** @var array<string, mixed> */
     protected array $config = [];
@@ -74,7 +74,8 @@ class FastRouteEndpoint
         switch ($routeInfo[0]) {
             case Dispatcher::NOT_FOUND:
                 // ... 404 Not Found
-                return new Response(null, 404);
+                $message = 'No route found matching ' . str_replace('%2F', '/', rawurlencode($request->getPathInfo()));
+                return new Response($message, 404);
             case Dispatcher::METHOD_NOT_ALLOWED:
                 $allowedMethods = $routeInfo[1];
                 // ... 405 Method Not Allowed

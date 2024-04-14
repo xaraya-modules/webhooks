@@ -1,7 +1,4 @@
 <?php
-/**
- * Entrypoint for webhooks (via ws.php) using TestController
- */
 
 namespace Xaraya\Modules\Webhooks\Endpoint;
 
@@ -9,7 +6,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Xaraya\Modules\Webhooks\Controller\TestController;
 
-class TestEndpoint
+/**
+ * Entrypoint for webhooks (via ws.php) using TestController
+ */
+class TestEndpoint implements EndpointInterface
 {
     /** @var array<string, mixed> */
     protected array $config = [];
@@ -57,7 +57,7 @@ class TestEndpoint
     public function runWithController()
     {
         $request = $this->getRequest();
-        $type = $request->get('name', '');
+        $type = $request->get('name', 'test');
 
         $controller = $this->getController();
         $response = $controller->handle($type, $request);

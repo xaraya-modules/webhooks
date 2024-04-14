@@ -14,6 +14,8 @@ namespace Xaraya\Modules\Webhooks;
 
 use xarMod;
 use xarModVars;
+use xarMasks;
+use xarPrivileges;
 
 /**
  * Initialise this module
@@ -76,6 +78,11 @@ function webhooks_upgrade($oldversion)
         case '2.4.1':
             // fall through to next upgrade
         case '2.4.2':
+            xarMasks::register('AdminWebhooks', 'All', 'webhooks', 'All', 'All', 'ACCESS_ADMIN');
+            xarPrivileges::register('AdminWebhooks', 'All', 'webhooks', 'All', 'All', 'ACCESS_ADMIN');
+            // fall through to next upgrade
+            // no break
+        case '2.4.3':
             break;
         default:
             break;
