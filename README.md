@@ -22,6 +22,8 @@ This can be enabled or disabled in `Modify Configuration`.
 
 * <a href="ws.php/webhook/test">webhook/test</a>
 * <a href="ws.php/webhook/fastroute">webhook/fastroute</a>
+* <a href="ws.php/webhook/xaraya-base">webhook/xaraya-base</a>
+* <a href="ws.php/webhook/xaraya-data">webhook/xaraya-data</a>
 * <a href="ws.php/webhook/hello-symfony">webhook/hello-symfony</a>
 * <a href="ws.php/webhook/hello-laravel">webhook/hello-laravel</a>
 * <a href="ws.php/passthru/symfony/">passthru/symfony/...</a>

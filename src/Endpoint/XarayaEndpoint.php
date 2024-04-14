@@ -6,8 +6,11 @@ use xarCore;
 use xarController;
 use xarEvents;
 use xarLog;
+use xarMod;
 use xarRequest;
 use sys;
+use DataObjectFactory;
+use Exception;
 
 /**
  * Entrypoint for webhooks (via ws.php) using Xaraya Core
@@ -32,8 +35,14 @@ class XarayaEndpoint implements EndpointInterface
 
     public function run()
     {
-        //$this->runWithController();
-        $this->runWithCore();
+        if (!empty($this->getConfig('object'))) {
+            $this->runWithObjectMethod();
+        } elseif (!empty($this->getConfig('module'))) {
+            $this->runWithModuleApiFunction();
+        } else {
+            //$this->runWithCore();
+            echo '@todo';
+        }
     }
 
     public function getConfig(string $name)
@@ -77,6 +86,102 @@ class XarayaEndpoint implements EndpointInterface
         return $request;
     }
 
+    /**
+     * @param xarRequest $request
+     * @param bool $isJson use POST'ed input as json
+     * @param bool $isMixed allow mixing POST'ed input and GET url params
+     * @return array<string, mixed>
+     */
+    public function getArguments($request, $isJson = true, $isMixed = false)
+    {
+        if (empty($isJson)) {
+            return $request->getFunctionArgs();
+        }
+        $rawInput = file_get_contents('php://input');
+        if (!empty($rawInput)) {
+            $args = json_decode($rawInput, true, 10, JSON_THROW_ON_ERROR);
+        } else {
+            $args = [];
+        }
+        if (!empty($isMixed)) {
+            $args += $request->getFunctionArgs();
+        }
+        return $args;
+    }
+
+    /**
+     * Using module api function
+     */
+    public function runWithModuleApiFunction()
+    {
+        // we need to initialize the core first here
+        $this->initCore();
+
+        $request = $this->getRequest();
+
+        // @todo add security check
+        $security = $this->getConfig('security');
+
+        $info = $this->getConfig('module');
+        $info['json'] ??= true;
+        // allow mixing POST'ed input and GET url params by default for module api function
+        $info['mixed'] ??= true;
+        $args = $this->getArguments($request, $info['json'], $info['mixed']);
+        $data = xarMod::apiFunc($info['name'], $info['type'], $info['func'], $args);
+
+        if (is_string($data)) {
+            echo $data;
+            return;
+        }
+        echo json_encode($data, JSON_PRETTY_PRINT);
+    }
+
+    /**
+     * Using object method
+     */
+    public function runWithObjectMethod()
+    {
+        // we need to initialize the core first here
+        $this->initCore();
+
+        $request = $this->getRequest();
+
+        // @todo add security check
+        $security = $this->getConfig('security');
+
+        $info = $this->getConfig('object');
+        $info['json'] ??= true;
+        // do *not* allow mixing POST'ed input and GET url params by default for object method
+        $info['mixed'] ??= false;
+        $args = $this->getArguments($request, $info['json'], $info['mixed']);
+        if (!empty($info['handler'])) {
+            // @todo add handler method
+            $handler = new $info['handler']($info);
+        } elseif (!empty($info['name'])) {
+            $object = DataObjectFactory::getObject($info);
+            $info['method'] ??= 'createItem';
+            if (!method_exists($object, $info['method'])) {
+                throw new Exception('Invalid object method for Xaraya endpoint');
+            }
+            if (empty($args)) {
+                echo 'Hello! You didn\'t specify any arguments for the object method...';
+                return;
+            }
+            $data = $object->{$info['method']}($args);
+        } elseif (!empty($info['class'])) {
+            // @todo add class method
+            $object = new $info['class']($info);
+        } else {
+            throw new Exception('Invalid object for Xaraya endpoint');
+        }
+
+        if (is_string($data)) {
+            echo $data;
+            return;
+        }
+        echo json_encode($data, JSON_PRETTY_PRINT);
+    }
+
     public function getKernel()
     {
         // we'll handle this ourselves :-)
@@ -108,14 +213,6 @@ class XarayaEndpoint implements EndpointInterface
         //$pageOutput = xarTpl::renderPage($mainModuleOutput, null, $context);
 
         return $mainModuleOutput;
-    }
-
-    /**
-     * Using controller
-     */
-    public function runWithController()
-    {
-        // @todo
     }
 
     /**
