@@ -24,8 +24,8 @@
     },
     "require-dev": {
         "nikic/fast-route": "^1.3",
-        "xaraya/with-laravel": "^0.2",
-        "xaraya/with-symfony": "^0.2"
+        "xaraya/with-laravel": "^0.3",
+        "xaraya/with-symfony": "^0.3"
     },
     "suggest": {
         "xaraya/with-symfony": "Integrate Xaraya with Symfony applications",

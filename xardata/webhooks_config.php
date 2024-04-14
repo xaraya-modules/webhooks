@@ -29,9 +29,9 @@ $config = [
         'environment' => [],
         'enabled' => false,
     ],
-    'hello' => [
+    'hello-symfony' => [
         'type' => 'webhook',
-        'name' => 'hello',
+        'name' => 'hello-symfony',
         'package' => 'xaraya/with-symfony',
         'endpoint' => 'Xaraya\\Modules\\Webhooks\\Endpoint\\SymfonyEndpoint',
         'environment' => [
