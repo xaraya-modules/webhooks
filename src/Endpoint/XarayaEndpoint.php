@@ -47,7 +47,7 @@ class XarayaEndpoint implements EndpointInterface
 
     public function getConfig(string $name)
     {
-        return $this->config[$name];
+        return $this->config[$name] ?? null;
     }
 
     /**
@@ -110,6 +110,61 @@ class XarayaEndpoint implements EndpointInterface
     }
 
     /**
+     * @param xarRequest $request
+     * @param array<string, mixed> $security
+     * @return bool
+     */
+    public function verifySignature($request, $security)
+    {
+        if (empty($security) ||
+            empty($security['signature']) ||
+            empty($security['secret'])) {
+            return true;
+        }
+        $server = $request->getServerContext();
+        $serverVar = 'HTTP_' . strtoupper(str_replace('-', '_', $security['signature']));
+        $signature = $server->getServerVar($serverVar);
+        if (empty($signature)) {
+            return false;
+        }
+        $rawInput = $server->getRawInput();
+        if (empty($rawInput)) {
+            return false;
+        }
+        // verify timestamp (in header = string or body = array)
+        if (!empty($security['timestamp'])) {
+            if (is_string($security['timestamp'])) {
+                $serverVar = 'HTTP_' . strtoupper(str_replace('-', '_', $security['timestamp']));
+                $timestamp = $server->getServerVar($serverVar);
+                if (empty($timestap)) {
+                    return false;
+                }
+                // timestamp is not part of body - add to hmac to verify
+                $verify = hash_hmac('sha256', $timestamp . $rawInput, $security['secret']);
+            } else {
+                // check body field for timestamp
+                $body = json_decode($rawInput, true, 10, JSON_THROW_ON_ERROR);
+                if (!array_key_exists($security['timestamp'], $body)) {
+                    return false;
+                }
+                $timestamp = $body[$security['timestamp']];
+                // timestamp is already part of body - do not add to hmac
+                $verify = hash_hmac('sha256', $rawInput, $security['secret']);
+            }
+            $now = time();
+            if (intval($timestamp) > $now + 60 || intval($timestamp) < $now - 60) {
+                return false;
+            }
+        } else {
+            $verify = hash_hmac('sha256', $rawInput, $security['secret']);
+        }
+        if (!hash_equals($verify, $signature)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Using module api function
      */
     public function runWithModuleApiFunction()
@@ -118,16 +173,22 @@ class XarayaEndpoint implements EndpointInterface
         $this->initCore();
 
         $request = $this->getRequest();
+        // Get context of the request if available
+        $context = $request->getServerContext()?->getContext();
 
-        // @todo add security check
+        // Verify signature based on secret (if any)
         $security = $this->getConfig('security');
+        if (!$this->verifySignature($request, $security)) {
+            echo 'Invalid webhook message';
+            return;
+        }
 
         $info = $this->getConfig('module');
         $info['json'] ??= true;
         // allow mixing POST'ed input and GET url params by default for module api function
         $info['mixed'] ??= true;
         $args = $this->getArguments($request, $info['json'], $info['mixed']);
-        $data = xarMod::apiFunc($info['name'], $info['type'], $info['func'], $args);
+        $data = xarMod::apiFunc($info['name'], $info['type'], $info['func'], $args, $context);
 
         if (is_string($data)) {
             echo $data;
@@ -145,9 +206,15 @@ class XarayaEndpoint implements EndpointInterface
         $this->initCore();
 
         $request = $this->getRequest();
+        // Get context of the request if available
+        $context = $request->getServerContext()?->getContext();
 
-        // @todo add security check
+        // Verify signature based on secret (if any)
         $security = $this->getConfig('security');
+        if (!$this->verifySignature($request, $security)) {
+            echo 'Invalid webhook message';
+            return;
+        }
 
         $info = $this->getConfig('object');
         $info['json'] ??= true;
@@ -157,8 +224,11 @@ class XarayaEndpoint implements EndpointInterface
         if (!empty($info['handler'])) {
             // @todo add handler method
             $handler = new $info['handler']($info);
+            if (method_exists($handler, 'setContext')) {
+                $handler->setContext($context);
+            }
         } elseif (!empty($info['name'])) {
-            $object = DataObjectFactory::getObject($info);
+            $object = DataObjectFactory::getObject($info, $context);
             $info['method'] ??= 'createItem';
             if (!method_exists($object, $info['method'])) {
                 throw new Exception('Invalid object method for Xaraya endpoint');
@@ -171,6 +241,9 @@ class XarayaEndpoint implements EndpointInterface
         } elseif (!empty($info['class'])) {
             // @todo add class method
             $object = new $info['class']($info);
+            if (method_exists($object, 'setContext')) {
+                $object->setContext($context);
+            }
         } else {
             throw new Exception('Invalid object for Xaraya endpoint');
         }

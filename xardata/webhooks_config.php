@@ -35,7 +35,7 @@ $config = [
             'mixed' => true,
         ],
         'object' => [],
-        'security' => '@todo',
+        'security' => [],
         'enabled' => false,
     ],
     'xaraya-data' => [
@@ -51,7 +51,12 @@ $config = [
             'json' => true,
             'mixed' => false,
         ],
-        'security' => '@todo',
+        'security' => [
+            'signature' => 'X-Verify-Signature',
+            //'timestamp' => 'X-Verify-Timestamp',
+            //'timestamp' => ['body' => 'timestamp'],
+            'secret' => 'This is not very secret, is it?',
+        ],
         'enabled' => false,
     ],
     'hello-symfony' => [
