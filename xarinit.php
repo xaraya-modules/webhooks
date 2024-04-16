@@ -28,6 +28,7 @@ function webhooks_init()
     $module = 'webhooks';
     $objects = [
         // add your DD objects here
+        'webhooks_log',
     ];
     if (!xarMod::apiFunc('modules', 'admin', 'standardinstall', ['module' => $module, 'objects' => $objects])) {
         return false;

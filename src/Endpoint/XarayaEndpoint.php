@@ -110,6 +110,24 @@ class XarayaEndpoint implements EndpointInterface
     }
 
     /**
+     * @param string $logname
+     * @param xarRequest $request
+     * @param mixed $context
+     * @return void
+     */
+    public function logRequest($logname, $request, $context)
+    {
+        $logobject = DataObjectFactory::getObject(['name' => $logname], $context);
+        $server = $request->getServerContext();
+        $data = [
+            'request' => $request->getRawURL(),
+            'headers' => json_encode(getallheaders()),  // @todo $server->getHeaders(),
+            'payload' => $server->getRawInput(),
+        ];
+        $logobject->createItem($data);
+    }
+
+    /**
      * @param xarRequest $request
      * @param array<string, mixed> $security
      * @return bool
@@ -182,6 +200,10 @@ class XarayaEndpoint implements EndpointInterface
             echo 'Invalid webhook message';
             return;
         }
+        $logname = $this->getConfig('logger');
+        if (!empty($logname)) {
+            $this->logRequest($logname, $request, $context);
+        }
 
         $info = $this->getConfig('module');
         $info['json'] ??= true;
@@ -214,6 +236,10 @@ class XarayaEndpoint implements EndpointInterface
         if (!$this->verifySignature($request, $security)) {
             echo 'Invalid webhook message';
             return;
+        }
+        $logname = $this->getConfig('logger');
+        if (!empty($logname)) {
+            $this->logRequest($logname, $request, $context);
         }
 
         $info = $this->getConfig('object');

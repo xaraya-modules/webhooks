@@ -37,6 +37,7 @@ $config = [
         'object' => [],
         'security' => [],
         'enabled' => false,
+        'logger' => 'webhooks_log',
     ],
     'xaraya-data' => [
         'type' => 'webhook',
@@ -58,6 +59,7 @@ $config = [
             'secret' => 'This is not very secret, is it?',
         ],
         'enabled' => false,
+        //'logger' => 'webhooks_log',
     ],
     'hello-symfony' => [
         'type' => 'webhook',
