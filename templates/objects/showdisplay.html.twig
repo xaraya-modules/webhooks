@@ -1,0 +1,31 @@
+{# @dynamicdata/objects/showdisplay.html.twig #}
+
+{% block showdisplay %}
+{# <!-- This is a generic display template for any DD object. You can use a specific template for one particular object in this directory as showdisplay-[objectname].xd, and/or use templates in your own [module]/xartemplates/objects directory by specifying the tplmodule="..." argument in the xar:data-display BL tag or showDisplay() method call. --> #}
+    {% if isprimary and xar_coremethod('xarModHooks', 'isHooked', 'categories', modname, itemtype) %}
+        {{ include('@dynamicdata/includes/catnavigation.html.twig') }}
+    {% endif %}
+    {# <!-- The layout could be set directly or through inheritance (for example in the modify prop screen) --> #}
+    {% if not layout %}
+        {% set layout = 'default' %}
+    {% endif %}
+    {% if layout == 'default' %}
+        {% for name, property in properties %}
+            <div class="xar-row">
+                <div class="xar-col">
+                    {{ xar_data_label({property: properties[name], for: "id"}) }}
+                </div>
+                <div class="xar-col">
+                    {% if name in ['headers', 'payload'] %}
+                        <pre>{{ xar_json_pretty(properties[name].value) }}</pre>
+                    {% else %}
+                        {{ xar_data_output({property: properties[name]}) }}
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        {# <!-- You can include your own layout here or specify a separate template, e.g. if you want to handle individual fields differently for a particular module / itemtype --> #}
+        {{ include('@' ~ tplmodule ~ '/includes/display-' ~ layout ~ '.html.twig') }}
+    {% endif %}
+{% endblock %}
