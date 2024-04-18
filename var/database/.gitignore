@@ -1,2 +1,4 @@
 *.sqlite*
+*.db*
 !database.sqlite
+!data.db

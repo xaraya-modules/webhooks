@@ -138,6 +138,17 @@ class SymfonyEndpoint implements EndpointInterface
             // set env var only if it's not defined yet
             $_ENV[$key] ??= $value;
         }
+        // Copy initial Symfony database from webhooks
+        $_ENV['SYMFONY_DATABASE_PATH'] ??= $dir . '/var/database';
+        if (!file_exists($_ENV['SYMFONY_DATABASE_PATH'] . '/data.db')) {
+            $filepath = $dir . '/vendor/xaraya/webhooks/var/database/data.db';
+            if (file_exists($filepath)) {
+                copy($filepath, $_ENV['SYMFONY_DATABASE_PATH'] . '/data.db');
+                chmod($_ENV['SYMFONY_DATABASE_PATH'] . '/data.db', 0o644);
+            }
+        }
+        // Set Symfony doctrine database url (3 slashes before path)
+        $_ENV['DATABASE_URL'] = 'sqlite:///' . $_ENV['SYMFONY_DATABASE_PATH'] . '/data.db';
 
         $runtime = $_SERVER['APP_RUNTIME'] ?? $_ENV['APP_RUNTIME'] ?? 'Symfony\\Component\\Runtime\\SymfonyRuntime';
         $runtime = new $runtime(($_SERVER['APP_RUNTIME_OPTIONS'] ?? $_ENV['APP_RUNTIME_OPTIONS'] ?? []) + [
