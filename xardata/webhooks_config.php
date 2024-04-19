@@ -108,6 +108,7 @@ $config = [
             'APP_SECRET' => '85698b634abd8de5d449cd0cbef19698',
             'APP_CACHE_DIR' => 'var/cache',
             'APP_LOG_DIR' => 'var/log',
+            //'MESSENGER_TRANSPORT_DSN' => 'doctrine://default?auto_setup=1',
             'MESSENGER_TRANSPORT_DSN' => 'sync://',
             'SYMFONY_DATABASE_PATH' => 'var/database',
         ],
