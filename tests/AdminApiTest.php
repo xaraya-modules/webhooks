@@ -43,7 +43,7 @@ final class AdminApiTest extends TestCase
 
     public function testAdminApi(): void
     {
-        $expected = 0;
+        $expected = 1;
         $itemtypes = AdminApi::getItemTypes();
         $this->assertCount($expected, $itemtypes);
     }
