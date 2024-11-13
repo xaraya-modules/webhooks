@@ -17,15 +17,19 @@
         "xaraya/core": "<2.4.1"
     },
     "autoload": {
-        "classmap": ["./"]
+        "classmap": ["./"],
+        "exclude-from-classmap": [
+            "var/",
+            "vendor/nesbot/carbon/lazy/"
+        ]
     },
     "require": {
-        "symfony/http-foundation": "^6.4||^7.1"
+        "symfony/http-foundation": "^7.1"
     },
     "require-dev": {
         "nikic/fast-route": "2.0.0-beta1",
-        "xaraya/with-laravel": "^0.5",
-        "xaraya/with-symfony": "^0.6"
+        "xaraya/with-laravel": "^0.6",
+        "xaraya/with-symfony": "^0.7"
     },
     "suggest": {
         "xaraya/with-symfony": "Integrate Xaraya with Symfony applications",
