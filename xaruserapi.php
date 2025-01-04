@@ -2,13 +2,11 @@
 /**
  * @package modules\webhooks
  * @category Xaraya Web Applications Framework
- * @version 2.4.2
+ * @version 2.5.3
  * @copyright see the html/credits.html file in this release
  * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
  * @link http://xaraya.info/index.php/release/182630.html
  */
-sys::import('modules.webhooks.class.adminapi');
-use Xaraya\Modules\Webhooks\AdminApi;
 
 /**
  * Utility function to retrieve the list of itemtypes of this module (if any).
@@ -18,7 +16,9 @@ use Xaraya\Modules\Webhooks\AdminApi;
  */
 function webhooks_userapi_getitemtypes(array $args = [], $context = null)
 {
-    return AdminApi::getItemTypes($args, $context);
+    $adminapi = xarMod::getModule('webhooks')->getAdminAPI();
+    $adminapi->setContext($context);
+    return $adminapi->getItemTypes($args, $context);
 }
 
 /**
@@ -31,5 +31,7 @@ function webhooks_userapi_getitemtypes(array $args = [], $context = null)
  */
 function webhooks_userapi_getitemlinks(array $args = [], $context = null)
 {
-    return AdminApi::getItemLinks($args, $context);
+    $adminapi = xarMod::getModule('webhooks')->getAdminAPI();
+    $adminapi->setContext($context);
+    return $adminapi->getItemLinks($args, $context);
 }

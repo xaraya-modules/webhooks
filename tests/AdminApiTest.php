@@ -25,6 +25,7 @@ final class AdminApiTest extends TestCase
         //xarMod::init();
         // initialize users
         //xarUser::init();
+        xarMLS::init();
         xarSession::setSessionClass(SessionContext::class);
 
         // file paths are relative to parent directory
@@ -44,7 +45,9 @@ final class AdminApiTest extends TestCase
     public function testAdminApi(): void
     {
         $expected = 1;
-        $itemtypes = AdminApi::getItemTypes();
+        $module = xarMod::getModule('webhooks');
+        $adminapi = $module->getAdminAPI();
+        $itemtypes = $adminapi->getItemTypes();
         $this->assertCount($expected, $itemtypes);
     }
 }

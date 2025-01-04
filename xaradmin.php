@@ -7,8 +7,6 @@
  * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
  * @link http://xaraya.info/index.php/release/182630.html
  */
-sys::import('modules.webhooks.class.admingui');
-use Xaraya\Modules\Webhooks\AdminGui;
 
 /**
  * Admin main
@@ -20,7 +18,7 @@ use Xaraya\Modules\Webhooks\AdminGui;
  */
 function webhooks_admin_main(array $args = [], $context = null)
 {
-    $admingui = new AdminGui();
+    $admingui = xarMod::getModule('webhooks')->getAdminGUI();
     $admingui->setContext($context);
     return $admingui->main($args);
 }
@@ -40,7 +38,7 @@ function webhooks_admin_modifyconfig(array $args = [], $context = null)
         return;
     }
 
-    $admingui = new AdminGui();
+    $admingui = xarMod::getModule('webhooks')->getAdminGUI();
     $admingui->setContext($context);
 
     if (!xarVar::fetch('phase', 'str:1:100', $phase, 'modify', xarVar::NOT_REQUIRED, xarVar::PREP_FOR_DISPLAY)) {

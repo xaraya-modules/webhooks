@@ -11,7 +11,7 @@
 $modversion = [];
 $modversion['name']           = 'webhooks';
 $modversion['id']             = '182630';  // @todo replace with fixed number
-$modversion['version']        = '2.4.3';
+$modversion['version']        = '2.5.3';
 $modversion['displayname']    = 'Webhooks';
 $modversion['description']    = 'Webhooks to and from Xaraya';
 $modversion['credits']        = '';
