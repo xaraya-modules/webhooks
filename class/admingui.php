@@ -13,21 +13,24 @@
 
 namespace Xaraya\Modules\Webhooks;
 
-use Xaraya\DataObject\Traits\UserGuiInterface;
-use Xaraya\DataObject\Traits\UserGuiTrait;
+use Xaraya\Core\Traits\AdminGuiInterface;
+use Xaraya\Core\Traits\AdminGuiTrait;
 use Xaraya\Modules\Webhooks\Configuration\WebhooksConfig;
+use xarController;
+use xarSec;
+use xarVar;
 use sys;
 
 sys::import('modules.dynamicdata.class.objects.factory');
-sys::import('modules.dynamicdata.class.traits.usergui');
-sys::import('modules.webhooks.class.adminapi');
+sys::import('modules.webhooks.class.userapi');
+sys::import('xaraya.traits.adminguitrait');
 
 /**
  * Class instance to handle the Webhooks User GUI
  */
-class AdminGui implements UserGuiInterface
+class AdminGui implements AdminGuiInterface
 {
-    use UserGuiTrait;
+    use AdminGuiTrait;
 
     /**
      * Admin main GUI function
@@ -41,6 +44,38 @@ class AdminGui implements UserGuiInterface
         // Pass along the context for xarTpl::module() if needed
         $args['context'] ??= $this->getContext();
         return $args;
+    }
+
+    /**
+     * Admin modifyconfig GUI function
+     * @param array<string, mixed> $args
+     * @return mixed template variables or output in HTML
+     */
+    public function modifyconfig(array $args = [])
+    {
+        // Security
+        if (!$this->checkAccess('AdminWebhooks')) {
+            return;
+        }
+        $phase = null;
+        if (!xarVar::fetch('phase', 'str:1:100', $phase, 'modify', xarVar::NOT_REQUIRED, xarVar::PREP_FOR_DISPLAY)) {
+            return;
+        }
+        switch (strtolower($phase)) {
+            case 'update':
+                // Confirm authorisation code
+                if (!xarSec::confirmAuthKey()) {
+                    return xarController::badRequest('bad_author', $this->getContext());
+                }
+                if (!xarVar::fetch('input', 'array', $args['input'], [], xarVar::NOT_REQUIRED)) {
+                    return;
+                }
+                return $this->update($args);
+
+            case 'modify':
+            default:
+                return $this->modify($args);
+        }
     }
 
     /**

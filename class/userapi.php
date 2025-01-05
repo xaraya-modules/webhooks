@@ -15,16 +15,14 @@ namespace Xaraya\Modules\Webhooks;
 
 use Xaraya\DataObject\Traits\UserApiInterface;
 use Xaraya\DataObject\Traits\UserApiTrait;
-use DataObjectFactory;
-use DataObjectList;
 use sys;
 
 sys::import('modules.dynamicdata.class.traits.userapi');
 
 /**
- * Class to handle the Webhooks User API (static for now)
+ * Class to handle the Webhooks User API
  */
-class AdminApi implements UserApiInterface
+class UserApi implements UserApiInterface
 {
     use UserApiTrait;
 }
