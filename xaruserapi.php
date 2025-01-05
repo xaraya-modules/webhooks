@@ -8,6 +8,8 @@
  * @link http://xaraya.info/index.php/release/182630.html
  */
 
+use Xaraya\Modules\Webhooks\AdminApi;
+
 /**
  * Utility function to retrieve the list of itemtypes of this module (if any).
  * @uses Xaraya\Modules\Webhooks\AdminApi::getItemTypes()
@@ -16,9 +18,10 @@
  */
 function webhooks_userapi_getitemtypes(array $args = [], $context = null)
 {
+    /** @var AdminApi $adminapi */
     $adminapi = xarMod::getModule('webhooks')->getAdminAPI();
     $adminapi->setContext($context);
-    return $adminapi->getItemTypes($args, $context);
+    return $adminapi->getItemTypes($args);
 }
 
 /**
@@ -31,7 +34,8 @@ function webhooks_userapi_getitemtypes(array $args = [], $context = null)
  */
 function webhooks_userapi_getitemlinks(array $args = [], $context = null)
 {
+    /** @var AdminApi $adminapi */
     $adminapi = xarMod::getModule('webhooks')->getAdminAPI();
     $adminapi->setContext($context);
-    return $adminapi->getItemLinks($args, $context);
+    return $adminapi->getItemLinks($args);
 }
