@@ -42,7 +42,7 @@ final class UserApiTest extends TestCase
 
     protected function tearDown(): void {}
 
-    public function testAdminApi(): void
+    public function testUserApi(): void
     {
         $expected = 1;
         $module = xarMod::getModule('webhooks');
