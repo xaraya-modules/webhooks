@@ -13,8 +13,8 @@
 
 namespace Xaraya\Modules\Webhooks;
 
-use Xaraya\Core\Traits\AdminGuiInterface;
-use Xaraya\Core\Traits\AdminGuiTrait;
+use Xaraya\Modules\AdminGuiInterface;
+use Xaraya\Modules\AdminGuiTrait;
 use Xaraya\Modules\Webhooks\Configuration\WebhooksConfig;
 use xarController;
 use xarSec;
@@ -23,7 +23,7 @@ use sys;
 
 sys::import('modules.dynamicdata.class.objects.factory');
 sys::import('modules.webhooks.class.userapi');
-sys::import('xaraya.traits.adminguitrait');
+sys::import('xaraya.modules.adminguitrait');
 
 /**
  * Class instance to handle the Webhooks User GUI
