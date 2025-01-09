@@ -5,7 +5,7 @@
  *
  * @package modules\webhooks
  * @category Xaraya Web Applications Framework
- * @version 2.5.6
+ * @version 2.5.7
  * @copyright see the html/credits.html file in this release
  * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
  * @link https://github.com/mikespub/xaraya-modules
@@ -15,21 +15,18 @@
 
 namespace Xaraya\Modules\Webhooks;
 
-use Xaraya\Modules\InstallerInterface;
-use Xaraya\Modules\InstallerTrait;
+use Xaraya\Modules\InstallerClass;
 use xarMasks;
 use xarPrivileges;
 use sys;
 
-sys::import('xaraya.modules.installertrait');
+sys::import('xaraya.modules.installer');
 
 /**
  * Handle module installer functions
  */
-class Installer implements InstallerInterface
+class Installer extends InstallerClass
 {
-    use InstallerTrait;
-
     /**
      * Configure this module - override this method
      *
