@@ -24,5 +24,6 @@ sys::import('modules.dynamicdata.class.traits.userapi');
  */
 class UserApi implements UserApiInterface
 {
+    /** @use UserApiTrait<Module> */
     use UserApiTrait;
 }
