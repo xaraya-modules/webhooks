@@ -13,19 +13,19 @@
 
 namespace Xaraya\Modules\Webhooks;
 
-use Xaraya\Modules\AdminGuiInterface;
-use Xaraya\Modules\AdminGuiTrait;
+use Xaraya\Modules\AdminGuiClass;
 use sys;
 
-sys::import('xaraya.modules.adminguitrait');
+sys::import('xaraya.modules.admingui');
 
 /**
- * Class instance to handle the Webhooks User GUI
+ * Handle the webhooks admin GUI
+ *
+ * @method mixed modifyconfig(array $args)
+ * @extends AdminGuiClass<Module>
  */
-class AdminGui implements AdminGuiInterface
+class AdminGui extends AdminGuiClass
 {
-    use AdminGuiTrait;
-
     /**
      * Admin main GUI function
      * @param array<string, mixed> $args

@@ -14,6 +14,8 @@
 
 namespace Xaraya\Modules\Webhooks\AdminGui;
 
+
+use Xaraya\Modules\Webhooks\AdminGui;
 use Xaraya\Modules\MethodClass;
 use Xaraya\Modules\Webhooks\Configuration\WebhooksConfig;
 use xarController;
@@ -25,6 +27,7 @@ sys::import('xaraya.modules.method');
 
 /**
  * Admin modifyconfig GUI function
+ * @extends MethodClass<AdminGui>
  */
 class ModifyconfigMethod extends MethodClass
 {
