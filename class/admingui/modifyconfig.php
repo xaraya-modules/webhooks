@@ -38,16 +38,16 @@ class ModifyconfigMethod extends MethodClass
             return;
         }
         $phase = null;
-        if (!xarVar::fetch('phase', 'str:1:100', $phase, 'modify', xarVar::NOT_REQUIRED, xarVar::PREP_FOR_DISPLAY)) {
+        if (!$this->fetch('phase', 'str:1:100', $phase, 'modify', xarVar::NOT_REQUIRED, xarVar::PREP_FOR_DISPLAY)) {
             return;
         }
         switch (strtolower($phase)) {
             case 'update':
                 // Confirm authorisation code
-                if (!xarSec::confirmAuthKey()) {
+                if (!$this->confirmAuthKey()) {
                     return xarController::badRequest('bad_author', $this->getContext());
                 }
-                if (!xarVar::fetch('input', 'array', $args['input'], [], xarVar::NOT_REQUIRED)) {
+                if (!$this->fetch('input', 'array', $args['input'], [], xarVar::NOT_REQUIRED)) {
                     return;
                 }
                 return $this->update($args);
