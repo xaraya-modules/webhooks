@@ -34,20 +34,20 @@ class ModifyconfigMethod extends MethodClass
     public function __invoke(array $args = [])
     {
         // Security
-        if (!$this->checkAccess('AdminWebhooks')) {
+        if (!$this->sec()->checkAccess('AdminWebhooks')) {
             return;
         }
         $phase = null;
-        if (!$this->fetch('phase', 'str:1:100', $phase, 'modify', xarVar::NOT_REQUIRED, xarVar::PREP_FOR_DISPLAY)) {
+        if (!$this->var()->find('phase', $phase, 'str:1:100', 'modify')) {
             return;
         }
         switch (strtolower($phase)) {
             case 'update':
                 // Confirm authorisation code
-                if (!$this->confirmAuthKey()) {
+                if (!$this->sec()->confirmAuthKey()) {
                     return xarController::badRequest('bad_author', $this->getContext());
                 }
-                if (!$this->fetch('input', 'array', $args['input'], [], xarVar::NOT_REQUIRED)) {
+                if (!$this->var()->find('input', $args['input'], 'array', [])) {
                     return;
                 }
                 return $this->update($args);
