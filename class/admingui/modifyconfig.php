@@ -45,7 +45,7 @@ class ModifyconfigMethod extends MethodClass
             case 'update':
                 // Confirm authorisation code
                 if (!$this->sec()->confirmAuthKey()) {
-                    return xarController::badRequest('bad_author', $this->getContext());
+                    return $this->ctl()->badRequest('bad_author', $this->getContext());
                 }
                 if (!$this->var()->find('input', $args['input'], 'array', [])) {
                     return;
@@ -69,7 +69,7 @@ class ModifyconfigMethod extends MethodClass
         $config = new WebhooksConfig();
         $args['config'] = $config->getConfig();
 
-        // Pass along the context for xarTpl::module() if needed
+        // Pass along the context for $this->tpl()->module() if needed
         $args['context'] ??= $this->getContext();
         return $args;
     }
@@ -104,7 +104,7 @@ class ModifyconfigMethod extends MethodClass
         $filepath = sys::varpath() . '/cache/api/webhooks_config.php';
         $config->saveConfig($filepath);
 
-        // Pass along the context for xarTpl::module() if needed
+        // Pass along the context for $this->tpl()->module() if needed
         $args['context'] ??= $this->getContext();
         return $args;
     }
