@@ -31,6 +31,11 @@ sys::import('xaraya.modules.method');
  */
 class ModifyconfigMethod extends MethodClass
 {
+    /**
+     * Summary of __invoke
+     * @param array<string, mixed> $args
+     * @return array<mixed>|string|void
+     */
     public function __invoke(array $args = [])
     {
         // Security
@@ -45,7 +50,7 @@ class ModifyconfigMethod extends MethodClass
             case 'update':
                 // Confirm authorisation code
                 if (!$this->sec()->confirmAuthKey()) {
-                    return $this->ctl()->badRequest('bad_author', $this->getContext());
+                    return $this->ctl()->badRequest('bad_author');
                 }
                 if (!$this->var()->find('input', $args['input'], 'array', [])) {
                     return;
