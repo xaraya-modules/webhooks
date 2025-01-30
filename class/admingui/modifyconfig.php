@@ -35,6 +35,7 @@ class ModifyconfigMethod extends MethodClass
      * Summary of __invoke
      * @param array<string, mixed> $args
      * @return array<mixed>|string|void
+     * @see AdminGui::modifyconfig()
      */
     public function __invoke(array $args = [])
     {
