@@ -36,14 +36,14 @@ final class AdminGuiTest extends TestCase
     {
         $expected = AdminGui::class;
         $module = xarMod::getModule('webhooks');
-        $admingui = $module->getAdminGUI();
+        $admingui = $module->admingui();
         $this->assertEquals($expected, $admingui::class);
     }
 
     public function testMain(): void
     {
         $context = null;
-        $admingui = xarMod::getModule('webhooks')->getAdminGUI();
+        $admingui = xarMod::getModule('webhooks')->admingui();
         $admingui->setContext($context);
 
         $args = ['hello' => 'world'];

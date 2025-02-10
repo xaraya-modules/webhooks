@@ -47,7 +47,7 @@ final class UserApiTest extends TestCase
         $expected = 1;
         $module = xarMod::getModule('webhooks');
         /** @var UserApi $userapi */
-        $userapi = $module->getAPI();
+        $userapi = $module->userapi();
         $itemtypes = $userapi->getItemTypes();
         $this->assertCount($expected, $itemtypes);
     }
