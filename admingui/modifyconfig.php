@@ -44,18 +44,14 @@ class ModifyconfigMethod extends MethodClass
             return;
         }
         $phase = null;
-        if (!$this->var()->find('phase', $phase, 'str:1:100', 'modify')) {
-            return;
-        }
+        $this->var()->find('phase', $phase, 'str:1:100', 'modify');
         switch (strtolower($phase)) {
             case 'update':
                 // Confirm authorisation code
                 if (!$this->sec()->confirmAuthKey()) {
                     return $this->ctl()->badRequest('bad_author');
                 }
-                if (!$this->var()->find('input', $args['input'], 'array', [])) {
-                    return;
-                }
+                $this->var()->find('input', $args['input'], 'array', []);
                 return $this->update($args);
 
             case 'modify':
