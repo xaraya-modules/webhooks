@@ -24,12 +24,12 @@
         ]
     },
     "require": {
-        "symfony/http-foundation": "^7.2"
+        "symfony/http-foundation": "^7.3"
     },
     "require-dev": {
         "nikic/fast-route": "2.0.0-beta1",
         "xaraya/with-laravel": "^0.6",
-        "xaraya/with-symfony": "^1.0"
+        "xaraya/with-symfony": "^1.1"
     },
     "suggest": {
         "xaraya/with-symfony": "Integrate Xaraya with Symfony applications",
