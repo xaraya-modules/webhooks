@@ -29,7 +29,7 @@
     },
     "require-dev": {
         "nikic/fast-route": "2.0.0-beta1",
-        "xaraya/with-laravel": "^0.6",
+        "xaraya/with-laravel": "^1.2",
         "xaraya/with-symfony": "^1.2"
     },
     "suggest": {
