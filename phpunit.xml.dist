@@ -19,7 +19,10 @@
 
     <source>
         <include>
-            <directory suffix=".php">class</directory>
+            <directory suffix=".php">.</directory>
         </include>
+        <exclude>
+            <directory suffix=".php">vendor</directory>
+        </exclude>
     </source>
 </phpunit>
