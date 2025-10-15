@@ -3,7 +3,6 @@
 namespace Xaraya\Modules\Webhooks\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Xaraya\Context\Context;
 use Xaraya\Context\SessionContext;
 use Xaraya\Modules\Webhooks\AdminGui;
 use sys;
@@ -12,7 +11,6 @@ use xarDatabase;
 use xarLog;
 use xarMod;
 use xarSession;
-use Throwable;
 
 //use Xaraya\Sessions\SessionHandler;
 

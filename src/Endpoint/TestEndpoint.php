@@ -3,7 +3,6 @@
 namespace Xaraya\Modules\Webhooks\Endpoint;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Xaraya\Modules\Webhooks\Controller\TestController;
 
 /**

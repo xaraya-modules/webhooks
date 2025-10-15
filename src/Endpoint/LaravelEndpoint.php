@@ -2,12 +2,9 @@
 
 namespace Xaraya\Modules\Webhooks\Endpoint;
 
-use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
 use Illuminate\Http\Request as HttpRequest;
 use Spatie\WebhookClient\WebhookConfig;
 use Spatie\WebhookClient\WebhookConfigRepository;
-use Spatie\WebhookClient\WebhookProcessor;
-use Spatie\WebhookClient\Http\Controllers\WebhookController;
 
 /**
  * Entrypoint for webhooks (via ws.php) using Laravel (Spatie) Webhook Client

@@ -5,7 +5,6 @@ namespace Xaraya\Modules\Webhooks\Endpoint;
 use xarCore;
 use xarController;
 use xarEvents;
-use xarLog;
 use xarMod;
 use xarRequest;
 use sys;

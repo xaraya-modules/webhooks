@@ -18,9 +18,6 @@ namespace Xaraya\Modules\Webhooks\AdminGui;
 use Xaraya\Modules\Webhooks\AdminGui;
 use Xaraya\Modules\MethodClass;
 use Xaraya\Modules\Webhooks\Configuration\WebhooksConfig;
-use xarController;
-use xarSec;
-use xarVar;
 use sys;
 
 sys::import('xaraya.modules.method');
