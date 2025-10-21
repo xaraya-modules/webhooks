@@ -11,8 +11,8 @@ use sys;
 use DataObjectFactory;
 use Exception;
 
-sys::import('xaraya.facades.logger');
-use Xaraya\Facades\xarLog3;
+sys::import('xaraya.services.xar');
+use Xaraya\Services\xar;
 
 /**
  * Entrypoint for webhooks (via ws.php) using Xaraya Core
@@ -83,7 +83,7 @@ class XarayaEndpoint implements EndpointInterface
         // Create the object that models this request
         $request = xarController::getRequest();
         xarController::normalizeRequest();
-        xarLog3::notice('Retrieved a request: ' . $request->getModule() . "_" . $request->getType() . "_" . $request->getFunction());
+        xar::log()->notice('Retrieved a request: ' . $request->getModule() . "_" . $request->getType() . "_" . $request->getFunction());
 
         return $request;
     }
@@ -298,19 +298,19 @@ class XarayaEndpoint implements EndpointInterface
         //$context['twig'] = true;
 
         // Process the request
-        xarLog3::notice('Dispatching request: ' . $request->getModule() . "_" . $request->getType() . "_" . $request->getFunction());
+        xar::log()->notice('Dispatching request: ' . $request->getModule() . "_" . $request->getType() . "_" . $request->getFunction());
         xarController::dispatch($request);
 
         // Retrieve the output to send to the browser
-        xarLog3::notice('Processing request ' . $request->getModule() . "_" . $request->getType() . "_" . $request->getFunction());
+        xar::log()->notice('Processing request ' . $request->getModule() . "_" . $request->getType() . "_" . $request->getFunction());
         $mainModuleOutput = xarController::getResponse()->getOutput();
 
         // We're all done, one ServerRequest made
-        xarLog3::notice('Notifying listeners of this request');
+        xar::log()->notice('Notifying listeners of this request');
         xarEvents::notify('ServerRequest');
 
         // Render page with the output + pass along the current context
-        //xarLog3::notice('Creating the page output');
+        //xar::log()->notice('Creating the page output');
         //$pageOutput = xarTpl::renderPage($mainModuleOutput, null, $context);
 
         return $mainModuleOutput;
