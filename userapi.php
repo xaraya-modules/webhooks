@@ -15,9 +15,6 @@ namespace Xaraya\Modules\Webhooks;
 
 use Xaraya\Modules\DynamicData\Traits\UserApiInterface;
 use Xaraya\Modules\DynamicData\Traits\UserApiTrait;
-use sys;
-
-sys::import('modules.dynamicdata.traits.userapi');
 
 /**
  * Class to handle the Webhooks User API

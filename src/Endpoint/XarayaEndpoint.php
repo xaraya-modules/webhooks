@@ -10,8 +10,6 @@ use xarRequest;
 use sys;
 use DataObjectFactory;
 use Exception;
-
-sys::import('xaraya.services.xar');
 use Xaraya\Services\xar;
 
 /**
@@ -70,7 +68,6 @@ class XarayaEndpoint implements EndpointInterface
         /**
         * Load the Xaraya core
         */
-        sys::import('xaraya.core');
         xarCore::xarInit($whatToLoad);
     }
 
@@ -136,9 +133,9 @@ class XarayaEndpoint implements EndpointInterface
      */
     public function verifySignature($request, $security)
     {
-        if (empty($security) ||
-            empty($security['signature']) ||
-            empty($security['secret'])) {
+        if (empty($security)
+            || empty($security['signature'])
+            || empty($security['secret'])) {
             return true;
         }
         $server = $request->getServerContext();

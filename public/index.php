@@ -1,10 +1,11 @@
 <?php
+
 /**
  * Entrypoint for webhooks (via ws.php)
  */
 if (empty($_SERVER['SERVER_FRAMEWORK'])) {
-    if (php_sapi_name() === 'cli' ||
-        !is_dir(dirname(__DIR__) . '/vendor')) {
+    if (php_sapi_name() === 'cli'
+        || !is_dir(dirname(__DIR__) . '/vendor')) {
         echo 'Entrypoint for webhooks (via ws.php)';
         return;
     }

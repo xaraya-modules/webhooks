@@ -14,13 +14,10 @@
 
 namespace Xaraya\Modules\Webhooks\AdminGui;
 
-
 use Xaraya\Modules\Webhooks\AdminGui;
 use Xaraya\Modules\MethodClass;
 use Xaraya\Modules\Webhooks\Configuration\WebhooksConfig;
 use sys;
-
-sys::import('xaraya.modules.method');
 
 /**
  * Admin modifyconfig GUI function
@@ -64,7 +61,6 @@ class ModifyconfigMethod extends MethodClass
      */
     public function modify(array $args = [])
     {
-        sys::import('modules.webhooks.src.Configuration.WebhooksConfig');
         $config = new WebhooksConfig();
         $args['config'] = $config->getConfig();
 
@@ -80,7 +76,6 @@ class ModifyconfigMethod extends MethodClass
      */
     public function update(array $args = [])
     {
-        sys::import('modules.webhooks.src.Configuration.WebhooksConfig');
         $config = new WebhooksConfig();
         $args['config'] = $config->getConfig();
 

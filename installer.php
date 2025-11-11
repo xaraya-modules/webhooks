@@ -18,9 +18,6 @@ namespace Xaraya\Modules\Webhooks;
 use Xaraya\Modules\InstallerClass;
 use xarMasks;
 use xarPrivileges;
-use sys;
-
-sys::import('xaraya.modules.installer');
 
 /**
  * Handle module installer functions

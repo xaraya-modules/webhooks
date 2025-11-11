@@ -152,8 +152,8 @@ class SymfonyEndpoint implements EndpointInterface
 
         $runtime = $_SERVER['APP_RUNTIME'] ?? $_ENV['APP_RUNTIME'] ?? 'Symfony\\Component\\Runtime\\SymfonyRuntime';
         $runtime = new $runtime(($_SERVER['APP_RUNTIME_OPTIONS'] ?? $_ENV['APP_RUNTIME_OPTIONS'] ?? []) + [
-          //'project_dir' => dirname(__DIR__, 1),
-          'project_dir' => $dir . '/vendor/xaraya/with-symfony',
+            //'project_dir' => dirname(__DIR__, 1),
+            'project_dir' => $dir . '/vendor/xaraya/with-symfony',
         ]);
 
         [$app, $args] = $runtime

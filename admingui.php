@@ -14,9 +14,6 @@
 namespace Xaraya\Modules\Webhooks;
 
 use Xaraya\Modules\AdminGuiClass;
-use sys;
-
-sys::import('xaraya.modules.admingui');
 
 /**
  * Handle the webhooks admin GUI

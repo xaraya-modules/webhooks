@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @see https://github.com/symfony/symfony/blob/7.0/src/Symfony/Component/Webhook/Controller/WebhookController.php
  * @see https://github.com/spatie/laravel-webhook-client/blob/main/src/Http/Controllers/WebhookController.php
