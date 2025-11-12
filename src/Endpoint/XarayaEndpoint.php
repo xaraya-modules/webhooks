@@ -61,14 +61,13 @@ class XarayaEndpoint implements EndpointInterface
          *       without loading the core
          */
         // This should not be the case here for webhooks
-        //sys::import('xaraya.caching');
         // Note: we may already exit here if session-less page caching is enabled
-        //xarCache::init();
+        //xar::cache()->init();
 
         /**
         * Load the Xaraya core
         */
-        xarCore::xarInit($whatToLoad);
+        xar::load($whatToLoad);
     }
 
     /**
