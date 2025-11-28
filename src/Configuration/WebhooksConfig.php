@@ -34,7 +34,7 @@ class WebhooksConfig
     /**
      * @return array<string, mixed>
      */
-    public function getDefaultConfig()
+    public function getDefaultConfig(): array
     {
         return require dirname(__DIR__, 2) . '/xardata/webhooks_config.php';
     }
@@ -42,7 +42,7 @@ class WebhooksConfig
     /**
      * @return array<string, mixed>
      */
-    public function getConfig()
+    public function getConfig(): array
     {
         return $this->config;
     }
@@ -51,7 +51,7 @@ class WebhooksConfig
      * @param array<string, mixed> $config
      * @return void
      */
-    public function setConfig(array $config = [])
+    public function setConfig(array $config = []): void
     {
         $this->config = $config;
     }
@@ -59,7 +59,7 @@ class WebhooksConfig
     /**
      * @return void
      */
-    public function saveConfig(string $filepath)
+    public function saveConfig(string $filepath): void
     {
         $output = "<?php\n\n\$config = " . var_export($this->config, true) . ";\n";
         $output .= "return \$config;\n";
@@ -70,7 +70,7 @@ class WebhooksConfig
      * @uses \sys::autoload()
      * @return object
      */
-    public function getEndpoint(string $type = '', string $name = '')
+    public function getEndpoint(string $type = '', string $name = ''): object
     {
         $type = $type ?: 'webhook';
         $name = $name ?: 'home';
@@ -99,7 +99,7 @@ class WebhooksConfig
     /**
      * @return list<string>
      */
-    public function listWebhooks()
+    public function listWebhooks(): array
     {
         $webhooks = [];
         foreach ($this->config as $name => $values) {

@@ -17,7 +17,16 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class TestController
 {
-    public function __construct(array $config = []) {}
+    /** @var array<string, mixed> */
+    protected array $config = [];
+
+    /**
+     * @param array<string, mixed> $config
+     */
+    public function __construct(array $config = [])
+    {
+        $this->config = $config;
+    }
 
     /**
      * @param array<string, mixed> $pathParams from FastRoute dispatcher (optional)
@@ -33,7 +42,7 @@ class TestController
         if (empty($type)) {
             $type = 'world';
         }
-        $name = rawurlencode(ucwords($request->get('name', $type)));
+        $name = rawurlencode(ucwords($request->query->get('name', $type)));
         return new Response("Hello, {$name}!");
     }
 }

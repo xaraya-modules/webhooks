@@ -5,12 +5,8 @@ namespace Xaraya\Modules\Webhooks\Tests;
 use PHPUnit\Framework\TestCase;
 use Xaraya\Context\SessionContext;
 use Xaraya\Modules\Webhooks\AdminGui;
+use Xaraya\Services\xar;
 use sys;
-use xarCache;
-use xarDatabase;
-use xarLog;
-use xarMod;
-use xarSession;
 
 //use Xaraya\Sessions\SessionHandler;
 
@@ -20,17 +16,18 @@ final class AdminGuiTest extends TestCase
     {
         // initialize bootstrap
         sys::init();
+        $xar = xar::getServicesClass();
         // initialize caching - delay until we need results
-        xarCache::init();
+        $xar->cache()->init();
         // initialize loggers
-        xarLog::init();
+        $xar->log()->init();
         // initialize database - delay until caching fails
-        xarDatabase::init();
+        $xar->db()->init();
         // initialize modules
-        //xarMod::init();
+        //$xar->mod()->init();
         // initialize users
-        //xarUser::init();
-        xarSession::setSessionClass(SessionContext::class);
+        //$xar->user()->init();
+        $xar->session()->setSessionClass(SessionContext::class);
     }
 
     public static function tearDownAfterClass(): void {}
@@ -42,7 +39,7 @@ final class AdminGuiTest extends TestCase
     public function testAdminGui(): void
     {
         $expected = AdminGui::class;
-        $module = xarMod::getModule('webhooks');
+        $module = xar::mod()->getModule('webhooks');
         $admingui = $module->admingui();
         $this->assertEquals($expected, $admingui::class);
     }
@@ -50,7 +47,7 @@ final class AdminGuiTest extends TestCase
     public function testMain(): void
     {
         $context = null;
-        $admingui = xarMod::getModule('webhooks')->admingui();
+        $admingui = xar::mod()->getModule('webhooks')->admingui();
         $admingui->setContext($context);
 
         $args = ['hello' => 'world'];

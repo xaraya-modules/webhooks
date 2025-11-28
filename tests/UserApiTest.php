@@ -5,13 +5,8 @@ namespace Xaraya\Modules\Webhooks\Tests;
 use PHPUnit\Framework\TestCase;
 use Xaraya\Context\SessionContext;
 use Xaraya\Modules\Webhooks\UserApi;
+use Xaraya\Services\xar;
 use sys;
-use xarCache;
-use xarDatabase;
-use xarLog;
-use xarMLS;
-use xarMod;
-use xarSession;
 
 //use Xaraya\Sessions\SessionHandler;
 
@@ -23,18 +18,19 @@ final class UserApiTest extends TestCase
     {
         // initialize bootstrap
         sys::init();
+        $xar = xar::getServicesClass();
         // initialize caching - delay until we need results
-        xarCache::init();
+        $xar->cache()->init();
         // initialize loggers
-        xarLog::init();
+        $xar->log()->init();
         // initialize database - delay until caching fails
-        xarDatabase::init();
+        $xar->db()->init();
         // initialize modules
-        //xarMod::init();
+        //$xar->mod()->init();
         // initialize users
-        //xarUser::init();
-        xarMLS::init();
-        xarSession::setSessionClass(SessionContext::class);
+        //$xar->user()->init();
+        $xar->mls()->init();
+        $xar->session()->setSessionClass(SessionContext::class);
 
         // file paths are relative to parent directory
         static::$oldDir = getcwd();
@@ -53,7 +49,7 @@ final class UserApiTest extends TestCase
     public function testUserApi(): void
     {
         $expected = 1;
-        $module = xarMod::getModule('webhooks');
+        $module = xar::mod()->getModule('webhooks');
         /** @var UserApi $userapi */
         $userapi = $module->userapi();
         $itemtypes = $userapi->getItemTypes();

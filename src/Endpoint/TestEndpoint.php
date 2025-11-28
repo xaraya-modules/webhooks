@@ -56,7 +56,7 @@ class TestEndpoint implements EndpointInterface
     public function runWithController()
     {
         $request = $this->getRequest();
-        $type = $request->get('name', 'test');
+        $type = $request->query->get('name', 'test');
 
         $controller = $this->getController();
         $response = $controller->handle($type, $request);

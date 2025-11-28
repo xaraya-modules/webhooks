@@ -3,9 +3,6 @@
 namespace Xaraya\Modules\Webhooks\Endpoint;
 
 use xarCore;
-use xarController;
-use xarEvents;
-use xarMod;
 use xarRequest;
 use sys;
 use DataObjectFactory;
@@ -77,8 +74,8 @@ class XarayaEndpoint implements EndpointInterface
     public function getRequest()
     {
         // Create the object that models this request
-        $request = xarController::getRequest();
-        xarController::normalizeRequest();
+        $request = xar::req()->getRequest();
+        xar::ctl()->normalizeRequest($request);
         xar::log()->notice('Retrieved a request: ' . $request->getModule() . "_" . $request->getType() . "_" . $request->getFunction());
 
         return $request;
@@ -152,7 +149,7 @@ class XarayaEndpoint implements EndpointInterface
             if (is_string($security['timestamp'])) {
                 $serverVar = 'HTTP_' . strtoupper(str_replace('-', '_', $security['timestamp']));
                 $timestamp = $server->getServerVar($serverVar);
-                if (empty($timestap)) {
+                if (empty($timestamp)) {
                     return false;
                 }
                 // timestamp is not part of body - add to hmac to verify
@@ -208,7 +205,7 @@ class XarayaEndpoint implements EndpointInterface
         // allow mixing POST'ed input and GET url params by default for module api function
         $info['mixed'] ??= true;
         $args = $this->getArguments($request, $info['json'], $info['mixed']);
-        $data = xarMod::apiFunc($info['name'], $info['type'], $info['func'], $args, $context);
+        $data = xar::mod()->apiFunc($info['name'], $info['type'], $info['func'], $args);
 
         if (is_string($data)) {
             echo $data;
@@ -295,15 +292,15 @@ class XarayaEndpoint implements EndpointInterface
 
         // Process the request
         xar::log()->notice('Dispatching request: ' . $request->getModule() . "_" . $request->getType() . "_" . $request->getFunction());
-        xarController::dispatch($request);
+        xar::ctl()->dispatch($request);
 
         // Retrieve the output to send to the browser
         xar::log()->notice('Processing request ' . $request->getModule() . "_" . $request->getType() . "_" . $request->getFunction());
-        $mainModuleOutput = xarController::getResponse()->getOutput();
+        $mainModuleOutput = xar::ctl()->getResponse()->getOutput();
 
         // We're all done, one ServerRequest made
         xar::log()->notice('Notifying listeners of this request');
-        xarEvents::notify('ServerRequest');
+        xar::events()->notify('ServerRequest');
 
         // Render page with the output + pass along the current context
         //xar::log()->notice('Creating the page output');

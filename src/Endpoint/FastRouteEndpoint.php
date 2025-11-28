@@ -2,12 +2,11 @@
 
 namespace Xaraya\Modules\Webhooks\Endpoint;
 
+use FastRoute\ConfigureRoutes;
 use FastRoute\Dispatcher;
-use FastRoute\RouteCollector;
+use FastRoute\FastRoute;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
-use function FastRoute\simpleDispatcher;
 
 /**
  * Entrypoint for webhooks (via ws.php) using FastRoute dispatcher
@@ -50,15 +49,21 @@ class FastRouteEndpoint implements EndpointInterface
 
     public function getDispatcher()
     {
+        $dispatcher = FastRoute::recommendedSettings($this->getRoutes(...), 'test')
+            ->disableCache()
+            ->dispatcher();
+
+        return $dispatcher;
+    }
+
+    public function getRoutes(ConfigureRoutes $collector)
+    {
         // use config to generate routes
         $routes = $this->getConfig('routes');
 
-        $dispatcher = simpleDispatcher(function (RouteCollector $r) use ($routes) {
-            foreach ($routes as $route) {
-                $r->addRoute($route[0], $route[1], $route[2]);
-            }
-        });
-        return $dispatcher;
+        foreach ($routes as $route) {
+            $collector->addRoute($route[0], $route[1], $route[2]);
+        }
     }
 
     public function getHandler($handler)
@@ -83,7 +88,9 @@ class FastRouteEndpoint implements EndpointInterface
             case Dispatcher::FOUND:
                 $handler = $routeInfo[1];
                 $vars = $routeInfo[2];
-                // ... call $handler with $vars
+                // extra options defined in route (_name) or set by route collector (_route = regex path)
+                $extra = $routeInfo->extraParameters;
+                // ... call $handler with $vars + $extra
                 $handler = $this->getHandler($handler);
                 $result = call_user_func($handler, 'fastroute', $request, $vars);
                 return $result;
