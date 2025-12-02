@@ -16,7 +16,7 @@ namespace Xaraya\Modules\Webhooks;
 use Xaraya\Modules\ModuleClass;
 
 /**
- * Get webhooks module classes via xarMod::getModule()
+ * Get webhooks module classes via xar::mod()->getModule()
  */
 class Module extends ModuleClass
 {

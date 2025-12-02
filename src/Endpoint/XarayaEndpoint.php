@@ -304,7 +304,7 @@ class XarayaEndpoint implements EndpointInterface
 
         // Render page with the output + pass along the current context
         //xar::log()->notice('Creating the page output');
-        //$pageOutput = xarTpl::renderPage($mainModuleOutput, null, $context);
+        //$pageOutput = xar::tpl()->renderPage($mainModuleOutput, null, $context);
 
         return $mainModuleOutput;
     }

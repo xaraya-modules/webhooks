@@ -32,7 +32,7 @@ class AdminGui extends AdminGuiClass
     {
         $args['description'] ??= 'Description of Webhooks';
 
-        // Pass along the context for xarTpl::module() if needed
+        // Pass along the context for $this->tpl()->module() if needed
         $args['context'] ??= $this->getContext();
         return $args;
     }
