@@ -5,7 +5,7 @@
     <div class="xar-mod-body">
         <div class="xar-mod-page-head">
             <xar:var name="label">Official Icon</xar:var>
-            <img src="#xarTpl::getImage('module-generic.png', 'base')#" alt="#$label#" width="96" height="96" class="xar-module-icon" />
+            <img src="#$xar->tpl()->getImage('module-generic.png', 'base')#" alt="#$label#" width="96" height="96" class="xar-module-icon" />
             <h2 class="xar-mod-pagetitle">Overview</h2>
         </div>
         <div class="xar-mod-page-body">
@@ -31,7 +31,7 @@
             <h3>Passthru Integration</h3>
             <p>
                 The xaraya/with-* packages also allow you to pass through *other* URLs besides webhooks to Symfony or Laravel applications.
-                This can be enabled or disabled in <a href="#xarController::URL('webhooks', 'admin', 'modifyconfig')#">Modify Configuration</a>.
+                This can be enabled or disabled in <a href="#$xar->ctl()->URL('webhooks', 'admin', 'modifyconfig')#">Modify Configuration</a>.
             </p>
             <h3>Test Webhooks</h3>
             <p>

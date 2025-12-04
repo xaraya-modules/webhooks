@@ -4,7 +4,7 @@
     <xar:template file="admin-mod-head"/>
     <div class="xar-mod-body">
         <h2>Modify Webhooks Configuration</h2>
-        <form method="post" action="#xarServer::getCurrentURL()#">
+        <form method="post" action="#$xar->ctl()->getCurrentURL()#">
             <xar:foreach in="$config" key="$name" value="$value">
                 <fieldset>
                     <legend>#ucfirst($value['type'])# #ucwords(str_replace('-', ' ', $name))#</legend>
